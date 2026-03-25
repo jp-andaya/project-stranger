@@ -1,0 +1,1 @@
+export { useTypingAnimation } from './useTypingAnimation';

@@ -1,0 +1,38 @@
+.card {
+  padding: 22px 26px;
+  border-radius: 6px;
+  border-left: 2px solid;
+}
+
+.content {
+  font-size: 15px;
+  line-height: 1.75;
+  margin-bottom: 18px;
+  opacity: 0.88;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.time {
+  font-size: 12px;
+}
+
+.likeButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border: 1px solid;
+  border-radius: 20px;
+  cursor: pointer;
+  background: none;
+  font-size: 14px;
+}
+
+.likeButton span:last-child {
+  font-size: 12px;
+}

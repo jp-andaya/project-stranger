@@ -1,0 +1,119 @@
+.main {
+  max-width: 580px;
+  margin: 0 auto;
+  padding: 70px 24px;
+  text-align: center;
+}
+
+.empty {
+  padding: 80px 24px;
+  text-align: center;
+}
+
+.empty p {
+  margin-bottom: 20px;
+}
+
+.backButton {
+  padding: 12px 24px;
+  color: #0a0a0b;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.label {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.prompt {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 17px;
+  margin-bottom: 44px;
+}
+
+.noteCard {
+  border-radius: 8px;
+  padding: 36px 32px;
+  margin-bottom: 36px;
+  text-align: left;
+  animation: fadeIn 0.4s ease;
+  border: 1px solid;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.noteContent {
+  font-size: 17px;
+  line-height: 1.85;
+  opacity: 0.92;
+}
+
+.noteFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: 1px solid;
+}
+
+.time {
+  font-size: 12px;
+}
+
+.likeButton {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 16px;
+  border: 1px solid;
+  border-radius: 20px;
+  cursor: pointer;
+  background: none;
+  font-family: inherit;
+}
+
+.likeButton span:first-child {
+  font-size: 16px;
+}
+
+.likeButton span:last-child {
+  font-size: 13px;
+}
+
+.pickButton {
+  padding: 15px 36px;
+  color: #0a0a0b;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 20px;
+  font-family: inherit;
+}
+
+.backLink {
+  display: block;
+  font-size: 13px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-top: 12px;
+  font-family: inherit;
+}

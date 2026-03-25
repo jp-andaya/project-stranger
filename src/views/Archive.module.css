@@ -1,0 +1,53 @@
+.main {
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 48px 24px;
+}
+
+.title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 30px;
+  font-style: italic;
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 14px;
+  margin-bottom: 36px;
+}
+
+.promptList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.promptCard {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 24px;
+  border: 1px solid;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  background: none;
+  font-family: inherit;
+  width: 100%;
+}
+
+.promptInfo {
+  flex: 1;
+}
+
+.promptText {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 17px;
+  margin-bottom: 5px;
+}
+
+.promptMeta {
+  font-size: 12px;
+}

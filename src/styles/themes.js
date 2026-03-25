@@ -1,0 +1,38 @@
+export const themes = {
+  dark: {
+    bg: '#0a0a0b',
+    bgSecondary: '#111112',
+    text: '#e4c9a8',
+    textSecondary: 'rgba(228, 201, 168, 0.7)',
+    textMuted: 'rgba(255, 255, 255, 0.4)',
+    textWhite: '#ffffff',
+    accent: '#c9a87c',
+    border: 'rgba(255, 255, 255, 0.1)',
+    borderLight: 'rgba(255, 255, 255, 0.05)',
+    cardBg: '#111112',
+    toggleBg: '#1a1a1b',
+    toggleKnob: '#e4c9a8',
+    bowlFill: 'rgba(255, 255, 255, 0.03)',
+    bowlStroke: 'rgba(255, 255, 255, 0.12)',
+    bowlReflect: 'rgba(255, 255, 255, 0.06)',
+  },
+  light: {
+    bg: '#f8f6f3',
+    bgSecondary: '#ffffff',
+    text: '#5c4a32',
+    textSecondary: 'rgba(92, 74, 50, 0.7)',
+    textMuted: 'rgba(0, 0, 0, 0.4)',
+    textWhite: '#2d2d2d',
+    accent: '#8b7355',
+    border: 'rgba(0, 0, 0, 0.1)',
+    borderLight: 'rgba(0, 0, 0, 0.05)',
+    cardBg: '#ffffff',
+    toggleBg: '#e8e4df',
+    toggleKnob: '#5c4a32',
+    bowlFill: 'rgba(255, 255, 255, 0.6)',
+    bowlStroke: 'rgba(139, 115, 85, 0.4)',
+    bowlReflect: 'rgba(255, 255, 255, 0.5)',
+  },
+};
+
+export default themes;
