@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
 import { useNotes } from '../context/NotesContext';
 import { useTypingAnimation } from '../hooks/useTypingAnimation';
+import { formatDate } from '../utils/date';
 import Bowl from '../components/Bowl';
 import StoryCard from '../components/StoryCard';
 import styles from './Home.module.css';
@@ -12,11 +13,9 @@ const Home = ({ onNavigate }) => {
   const [text, setText] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
-  // Only start typing animation once prompt is loaded
   const promptText = currentPrompt?.text || '';
   const { displayed, done } = useTypingAnimation(promptText, 40);
 
-  // Loading state
   if (loading) {
     return (
       <main className={styles.main}>
@@ -29,7 +28,6 @@ const Home = ({ onNavigate }) => {
     );
   }
 
-  // Error state
   if (error) {
     return (
       <main className={styles.main}>
@@ -45,7 +43,6 @@ const Home = ({ onNavigate }) => {
     );
   }
 
-  // Current prompt's notes (already filtered in context)
   const promptNotes = notes;
 
   const handleSubmit = async () => {
@@ -58,7 +55,6 @@ const Home = ({ onNavigate }) => {
       onNavigate('confirm');
     } catch (err) {
       console.error('Submit failed:', err);
-      // Could show a toast/error message here
     } finally {
       setSubmitting(false);
     }
@@ -75,7 +71,7 @@ const Home = ({ onNavigate }) => {
           TODAY'S PROMPT
         </div>
         <div className={styles.date} style={{ color: theme.textMuted }}>
-          {currentPrompt.scheduled_date}
+          {formatDate(currentPrompt.scheduled_date)}
         </div>
         <h1 className={styles.promptText} style={{ color: theme.text }}>
           {displayed}

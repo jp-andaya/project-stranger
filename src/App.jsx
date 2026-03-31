@@ -7,6 +7,7 @@ import Read from './views/Read';
 import Confirmation from './views/Confirmation';
 import Archive from './views/Archive';
 import About from './views/About';
+import Admin from './views/Admin';
 
 const AppContent = () => {
   const [currentView, setCurrentView] = useState('home');
@@ -29,6 +30,8 @@ const AppContent = () => {
         return <Archive onNavigate={handleNavigate} />;
       case 'about':
         return <About onNavigate={handleNavigate} />;
+      case 'admin':
+        return <Admin onNavigate={handleNavigate} />;
       default:
         return <Home onNavigate={handleNavigate} />;
     }

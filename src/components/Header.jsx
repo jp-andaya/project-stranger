@@ -10,6 +10,7 @@ const Header = ({ currentView, onNavigate }) => {
     { id: 'home', label: 'Today' },
     { id: 'archive', label: 'Archive' },
     { id: 'about', label: 'About' },
+    { id: 'admin', label: 'Admin' },
   ];
 
   return (

@@ -1,5 +1,6 @@
 import { useTheme } from '../context/ThemeContext';
 import { useNotes } from '../context/NotesContext';
+import { formatDateShort } from '../utils/date';
 import Bowl from '../components/Bowl';
 import styles from './Archive.module.css';
 
@@ -49,7 +50,7 @@ const Archive = ({ onNavigate }) => {
                 className={styles.promptMeta}
                 style={{ color: theme.textMuted }}
               >
-                {prompt.scheduled_date} · {prompt.note_count}{' '}
+                {formatDateShort(prompt.scheduled_date)} · {prompt.note_count}{' '}
                 {prompt.note_count === 1 ? 'story' : 'stories'}
               </span>
             </div>

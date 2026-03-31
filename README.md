@@ -1,76 +1,128 @@
-# Project Stranger
+# Project Stranger — Update Pack 2
 
-An anonymous storytelling mental health web app where users respond to daily prompts by dropping notes into a bowl and can pick random notes from strangers to read.
+This update includes: date formatting fix, admin moderation panel, flag notes feature, and GitHub setup guide.
 
-## Features
+## Files to Copy
 
-- 🫙 **The Bowl** - Visual fishbowl metaphor for collecting anonymous stories
-- ✍️ **Daily Prompts** - New prompt each day with typing animation
-- 👤 **Complete Anonymity** - No accounts, no tracking, no cookies
-- 🌓 **Dark/Light Mode** - Pill-shaped theme toggle
-- ❤️ **Send Warmth** - Like stories without identity
-- 📚 **Archive** - Browse past prompts and their stories
-
-## Tech Stack
-
-- React 18
-- Vite
-- CSS Modules
-- Context API for state management
-
-## Getting Started
-
-```bash
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
-```
-
-## Project Structure
-
+### NEW files (add these):
 ```
 src/
-├── components/          # Reusable UI components
-│   ├── Bowl.jsx        # Fishbowl with notes
-│   ├── BowlIcon.jsx    # Header logo
-│   ├── Header.jsx      # Navigation header
-│   ├── StoryCard.jsx   # Story display card
-│   └── ThemeToggle.jsx # Dark/light mode switch
-├── context/            # React Context providers
-│   ├── NotesContext.jsx
-│   └── ThemeContext.jsx
-├── data/               # Sample data
-│   └── sampleData.js
-├── hooks/              # Custom hooks
-│   └── useTypingAnimation.js
-├── styles/             # Global styles and themes
-│   ├── global.css
-│   └── themes.js
-├── views/              # Page components
-│   ├── About.jsx
-│   ├── Archive.jsx
-│   ├── Confirmation.jsx
-│   ├── Home.jsx
-│   └── Read.jsx
-├── App.jsx             # Root component
-└── main.jsx            # Entry point
+├── utils/
+│   └── date.js              ← NEW: date formatting utility
+├── views/
+│   ├── Admin.jsx            ← NEW: admin moderation panel
+│   └── Admin.module.css     ← NEW: admin panel styles
 ```
 
-## Design
+### REPLACE these existing files:
+```
+src/
+├── App.jsx                       ← adds admin route
+├── utils/
+│   └── index.js                  ← exports date utils
+├── components/
+│   ├── Header.jsx                ← adds Admin nav link
+│   ├── StoryCard.jsx             ← adds flag/report button
+│   └── StoryCard.module.css      ← flag button styles
+├── views/
+│   ├── Home.jsx                  ← formatted dates
+│   ├── Archive.jsx               ← formatted dates
+│   └── index.js                  ← exports Admin
+```
 
-- **Dark Mode**: Black background (#0a0a0b), amber accents (#c9a87c, #e4c9a8)
-- **Light Mode**: Cream background (#f8f6f3), brown accents (#8b7355)
-- **Typography**: Cormorant Garamond (serif, prompts), Inter (sans-serif, UI)
-- **Bowl**: Glass fishbowl with colourful paper notes inside
+## What's New
 
-## Author
+### 1. Date Formatting
+- "2026-03-24" → "Monday, 24 March" on the home page
+- "Mon, 24 Mar" short format on archive cards
 
-John Andaya - UWE Bristol Digital Systems Project (UFCFXK-30-3)
+### 2. Admin Moderation Panel
+- Dashboard stats: total notes, prompts, warmth, flagged, hidden
+- Flagged notes tab: review notes reported by users
+- All notes tab: browse every note with hide/restore/delete controls
+- Confirmation dialog before permanent deletes
+- Action feedback messages
+
+### 3. Flag Notes Feature
+- Small flag icon (⚐) on every story card
+- Users can report inappropriate content
+- Flagged notes appear in admin panel for review
+- Flag icon turns solid (⚑) after reporting
+
+### 4. Navigation Update
+- "Admin" link added to header nav bar
+- Admin panel accessible from any page
+
+---
+
+## GitHub Setup Guide
+
+### First-time setup (run once):
+
+1. Create a new repository on GitHub:
+   - Go to github.com → New Repository
+   - Name: "project-stranger"
+   - Keep it Public or Private (your choice)
+   - Do NOT initialise with README (we already have one)
+   - Click "Create repository"
+
+2. Open a terminal in your project root:
+```powershell
+cd C:\Users\johna\Downloads\project-stranger\project-stranger
+```
+
+3. Initialise Git and push:
+```powershell
+git init
+git add .
+git commit -m "Initial commit - Project Stranger full stack"
+git branch -M main
+git remote add origin https://github.com/YOUR_USERNAME/project-stranger.git
+git push -u origin main
+```
+
+Replace YOUR_USERNAME with your actual GitHub username.
+
+### Create a .gitignore file first!
+
+Before running `git add .`, create a file called `.gitignore` in the project root with:
+```
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment
+.env
+
+# Database (generated locally)
+backend/stranger.db
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+```
+
+### Making changes going forward:
+```powershell
+git add .
+git commit -m "Description of what you changed"
+git push
+```
+
+### Useful commands:
+```powershell
+git status            # see what's changed
+git log --oneline     # see commit history
+git diff              # see file changes
+```
