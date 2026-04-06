@@ -22,3 +22,8 @@ Thumbs.db
 __pycache__/
 *.pyc
 *.pyo
+
+# Claude Code / Skills
+.agents/
+.claude/
+skills-lock.json

@@ -1,37 +1,36 @@
 export const themes = {
   dark: {
-    bg: '#0a0a0b',
-    bgSecondary: '#111112',
-    text: '#e4c9a8',
-    textSecondary: 'rgba(228, 201, 168, 0.7)',
-    textMuted: 'rgba(255, 255, 255, 0.4)',
-    textWhite: '#ffffff',
-    accent: '#c9a87c',
-    border: 'rgba(255, 255, 255, 0.1)',
-    borderLight: 'rgba(255, 255, 255, 0.05)',
-    cardBg: '#111112',
-    toggleBg: '#1a1a1b',
-    toggleKnob: '#e4c9a8',
-    bowlFill: 'rgba(255, 255, 255, 0.03)',
-    bowlStroke: 'rgba(255, 255, 255, 0.12)',
-    bowlReflect: 'rgba(255, 255, 255, 0.06)',
-  },
-  light: {
-    bg: '#f8f6f3',
-    bgSecondary: '#ffffff',
-    text: '#5c4a32',
-    textSecondary: 'rgba(92, 74, 50, 0.7)',
-    textMuted: 'rgba(0, 0, 0, 0.4)',
-    textWhite: '#2d2d2d',
-    accent: '#8b7355',
-    border: 'rgba(0, 0, 0, 0.1)',
-    borderLight: 'rgba(0, 0, 0, 0.05)',
-    cardBg: '#ffffff',
-    toggleBg: '#e8e4df',
-    toggleKnob: '#5c4a32',
-    bowlFill: 'rgba(255, 255, 255, 0.6)',
-    bowlStroke: 'rgba(139, 115, 85, 0.4)',
-    bowlReflect: 'rgba(255, 255, 255, 0.5)',
+    // Background layers
+    bgMain: '#0c0a14',
+    bgHighlight: 'rgba(180, 140, 255, 0.06)',
+    bgTint: 'rgba(200, 160, 100, 0.04)',
+    bgVignette: 'rgba(8, 5, 18, 0.7)',
+
+    // Surfaces (glass cards)
+    surface: 'rgba(255, 255, 255, 0.04)',
+    surfaceHover: 'rgba(255, 255, 255, 0.07)',
+    surfaceBorder: 'rgba(255, 255, 255, 0.08)',
+    surfaceActive: 'rgba(255, 255, 255, 0.10)',
+
+    // Text
+    textPrimary: '#f0e6d3',
+    textSecondary: 'rgba(240, 230, 211, 0.6)',
+    textMuted: 'rgba(240, 230, 211, 0.35)',
+
+    // Accents
+    accentAmber: '#e8b468',
+    accentLilac: '#c4a0ff',
+    accentWarmth: '#ff9b7a',
+
+    // Glow
+    glowAmber: 'rgba(232, 180, 104, 0.3)',
+    glowLilac: 'rgba(196, 160, 255, 0.15)',
+
+    // Functional
+    danger: '#ff6b5a',
+    dangerBg: 'rgba(255, 107, 90, 0.12)',
+    success: '#7ee068',
+    successBg: 'rgba(126, 224, 104, 0.12)',
   },
 };
 

@@ -1,62 +1,50 @@
+import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
 import { useNotes } from '../context/NotesContext';
 import { formatDateShort } from '../utils/date';
-import Bowl from '../components/Bowl';
 import styles from './Archive.module.css';
+
+const staggerContainer = {
+  animate: { transition: { staggerChildren: 0.06 } },
+};
+
+const cardVariant = {
+  initial: { opacity: 0, y: 12 },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.23, 1, 0.32, 1] } },
+};
 
 const Archive = ({ onNavigate }) => {
   const { theme } = useTheme();
-  const { prompts, loading } = useNotes();
-
-  if (loading) {
-    return (
-      <main className={styles.main}>
-        <h1 className={styles.title} style={{ color: theme.text }}>
-          Archive
-        </h1>
-        <p className={styles.subtitle} style={{ color: theme.textMuted }}>
-          Loading past prompts...
-        </p>
-      </main>
-    );
-  }
+  const { prompts, getNoteCount } = useNotes();
 
   return (
     <main className={styles.main}>
-      <h1 className={styles.title} style={{ color: theme.text }}>
-        Archive
-      </h1>
-      <p className={styles.subtitle} style={{ color: theme.textMuted }}>
-        Past prompts and their stories
-      </p>
+      <h1 className={styles.title}>Archive</h1>
+      <p className={styles.subtitle}>Past prompts and their stories</p>
 
-      <div className={styles.promptList}>
+      <motion.div
+        className={styles.grid}
+        variants={staggerContainer}
+        initial="initial"
+        animate="animate"
+      >
         {prompts.map((prompt) => (
-          <button
+          <motion.button
             key={prompt.id}
-            className={styles.promptCard}
+            className={styles.card}
+            variants={cardVariant}
             onClick={() => onNavigate('home')}
-            style={{
-              backgroundColor: theme.cardBg,
-              borderColor: theme.borderLight,
-            }}
+            whileHover={{ y: -2 }}
+            whileTap={{ scale: 0.98 }}
           >
-            <Bowl noteCount={prompt.note_count} size="sm" />
-            <div className={styles.promptInfo}>
-              <p className={styles.promptText} style={{ color: theme.text }}>
-                {prompt.text}
-              </p>
-              <span
-                className={styles.promptMeta}
-                style={{ color: theme.textMuted }}
-              >
-                {formatDateShort(prompt.scheduled_date)} · {prompt.note_count}{' '}
-                {prompt.note_count === 1 ? 'story' : 'stories'}
-              </span>
+            <p className={styles.promptText}>{prompt.text}</p>
+            <div className={styles.cardFooter}>
+              <span className={styles.meta}>{formatDateShort(prompt.scheduled_date)}</span>
+              <span className={styles.meta}>{getNoteCount(prompt.id)} stories</span>
             </div>
-          </button>
+          </motion.button>
         ))}
-      </div>
+      </motion.div>
     </main>
   );
 };

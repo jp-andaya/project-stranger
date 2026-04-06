@@ -1,14 +1,23 @@
 .card {
-  padding: 22px 26px;
-  border-radius: 6px;
-  border-left: 2px solid;
+  padding: 24px 28px;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: 16px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: box-shadow var(--transition-base), background var(--transition-base);
+}
+
+.card:hover {
+  background: var(--surface-hover);
+  box-shadow: 0 0 24px rgba(232, 180, 104, 0.04);
 }
 
 .content {
-  font-size: 15px;
+  font-size: var(--text-base);
   line-height: 1.75;
+  color: var(--text-primary);
   margin-bottom: 18px;
-  opacity: 0.88;
 }
 
 .footer {
@@ -18,40 +27,74 @@
 }
 
 .time {
-  font-size: 12px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
 }
 
 .actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .flagButton {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 16px;
-  padding: 4px;
-  transition: opacity 0.2s;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  padding: 4px 8px;
+  letter-spacing: 0.03em;
+  transition: color var(--transition-base);
 }
 
 .flagButton:hover {
-  opacity: 1 !important;
+  color: var(--text-secondary);
 }
 
-.likeButton {
+.flagButton[data-flagged] {
+  color: var(--accent-warmth);
+}
+
+.warmthButton {
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 5px 12px;
-  border: 1px solid;
-  border-radius: 20px;
+  padding: 6px 14px;
+  border: 1px solid var(--surface-border);
+  border-radius: 100px;
   cursor: pointer;
-  background: none;
-  font-size: 14px;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  transition: color var(--transition-base), border-color var(--transition-base), background var(--transition-base);
 }
 
-.likeButton span:last-child {
-  font-size: 12px;
+.warmthButton:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.warmthButton[data-liked] {
+  color: var(--accent-warmth);
+  border-color: rgba(255, 155, 122, 0.25);
+  background: rgba(255, 155, 122, 0.06);
+}
+
+/* ── Mobile ──────────────────────────── */
+
+@media (max-width: 480px) {
+  .card {
+    padding: 20px 22px;
+    border-radius: 14px;
+  }
+
+  .content {
+    font-size: 14px;
+  }
 }

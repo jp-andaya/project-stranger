@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
 import { useNotes } from '../context/NotesContext';
+import Skeleton from '../components/Skeleton';
 import styles from './Read.module.css';
 
 const Read = ({ onNavigate }) => {
@@ -10,11 +12,8 @@ const Read = ({ onNavigate }) => {
   const [loadingNote, setLoadingNote] = useState(true);
   const [key, setKey] = useState(0);
 
-  // Pick first note on mount
   useEffect(() => {
-    if (currentPrompt) {
-      pickNote();
-    }
+    if (currentPrompt) pickNote();
   }, [currentPrompt]);
 
   const pickNote = async () => {
@@ -25,43 +24,39 @@ const Read = ({ onNavigate }) => {
     setLoadingNote(false);
   };
 
-  const pickAnother = () => {
-    pickNote();
-  };
-
   const handleLike = async () => {
     if (!note) return;
     const result = await likeNote(note.id);
     if (result && !result.already_liked) {
-      // Update local note state with new like count
       setNote((prev) => ({ ...prev, likes: result.likes }));
     }
   };
 
-  // Loading state
   if (loadingNote && !note) {
     return (
-      <div className={styles.empty}>
-        <p style={{ color: theme.textMuted, fontStyle: 'italic' }}>
-          Reaching into the bowl...
-        </p>
-      </div>
+      <main className={styles.main}>
+        <Skeleton width="100px" height="14px" radius={100} style={{ margin: '0 auto 14px' }} />
+        <Skeleton width="80%" height="20px" radius={4} style={{ margin: '0 auto 48px' }} />
+        <Skeleton width="100%" height="220px" radius={16} />
+      </main>
     );
   }
 
-  // Empty bowl
   if (!note) {
     return (
-      <div className={styles.empty}>
-        <p style={{ color: theme.textMuted }}>The bowl is empty...</p>
-        <button
-          className={styles.backButton}
-          onClick={() => onNavigate('home')}
-          style={{ backgroundColor: theme.accent }}
-        >
-          Go back
-        </button>
-      </div>
+      <main className={styles.main}>
+        <div className={styles.emptyState}>
+          <p className={styles.emptyTitle}>The bowl is empty</p>
+          <p className={styles.emptyHint}>No stories have been shared yet</p>
+          <motion.button
+            className={styles.primaryButton}
+            onClick={() => onNavigate('home')}
+            whileTap={{ scale: 0.96 }}
+          >
+            Go back
+          </motion.button>
+        </div>
+      </main>
     );
   }
 
@@ -69,67 +64,50 @@ const Read = ({ onNavigate }) => {
 
   return (
     <main className={styles.main}>
-      <div className={styles.label} style={{ color: theme.textMuted }}>
-        From the bowl
-      </div>
-      <p className={styles.prompt} style={{ color: theme.textSecondary }}>
-        "{currentPrompt.text}"
-      </p>
+      <div className={styles.label}>From the bowl</div>
+      <p className={styles.prompt}>"{currentPrompt.text}"</p>
 
-      <div
+      <motion.div
         key={key}
         className={styles.noteCard}
-        style={{
-          backgroundColor: theme.cardBg,
-          borderColor: theme.borderLight,
-        }}
+        initial={{ opacity: 0, y: 16, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
       >
-        <p className={styles.noteContent} style={{ color: theme.textWhite }}>
-          {note.content}
-        </p>
-        <div
-          className={styles.noteFooter}
-          style={{ borderTopColor: theme.borderLight }}
-        >
-          <span className={styles.time} style={{ color: theme.textMuted }}>
-            {note.time_ago || note.time}
-          </span>
-          <button
-            className={styles.likeButton}
+        <p className={styles.noteContent}>{note.content}</p>
+        <div className={styles.noteFooter}>
+          <span className={styles.time}>{note.time_ago || note.time}</span>
+          <motion.button
+            className={styles.warmthButton}
             onClick={handleLike}
-            style={{
-              backgroundColor: liked
-                ? 'rgba(201, 168, 124, 0.15)'
-                : 'transparent',
-              borderColor: liked ? theme.accent : theme.border,
-            }}
+            data-liked={liked ? '' : undefined}
+            whileTap={{ scale: 0.92 }}
           >
-            <span style={{ color: liked ? theme.accent : theme.textMuted }}>
-              {liked ? '♥' : '♡'}
-            </span>
-            <span style={{ color: liked ? theme.accent : theme.textMuted }}>
-              {note.likes}
-            </span>
-          </button>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill={liked ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+            </svg>
+            <span>{note.likes}</span>
+          </motion.button>
         </div>
+      </motion.div>
+
+      <div className={styles.actions}>
+        <motion.button
+          className={styles.primaryButton}
+          onClick={pickNote}
+          disabled={loadingNote}
+          whileTap={{ scale: 0.96 }}
+        >
+          {loadingNote ? 'Picking...' : 'Pick another note'}
+        </motion.button>
+
+        <button
+          className={styles.backLink}
+          onClick={() => onNavigate('home')}
+        >
+          Back to today
+        </button>
       </div>
-
-      <button
-        className={styles.pickButton}
-        onClick={pickAnother}
-        disabled={loadingNote}
-        style={{ backgroundColor: theme.accent }}
-      >
-        {loadingNote ? 'Picking...' : 'Pick Another Note'}
-      </button>
-
-      <button
-        className={styles.backLink}
-        onClick={() => onNavigate('home')}
-        style={{ color: theme.textMuted }}
-      >
-        ← Back to today
-      </button>
     </main>
   );
 };

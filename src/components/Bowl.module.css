@@ -11,6 +11,10 @@
   transform: scale(1.03);
 }
 
+.clickable:active {
+  transform: scale(0.98);
+}
+
 .notesContainer {
   position: absolute;
   top: 28%;
@@ -34,9 +38,9 @@
   bottom: -22px;
   left: 50%;
   transform: translateX(-50%);
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--font-serif);
   font-style: italic;
-  font-size: 12px;
+  font-size: var(--text-sm);
   white-space: nowrap;
   opacity: 0.6;
 }
@@ -44,5 +48,19 @@
 .noteCount {
   text-align: center;
   margin-top: 8px;
-  font-size: 11px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+
+/* ── Mobile ──────────────────────────── */
+
+@media (max-width: 480px) {
+  .pickPrompt {
+    font-size: 11px;
+    bottom: -18px;
+  }
+
+  .noteCount {
+    font-size: 10px;
+  }
 }

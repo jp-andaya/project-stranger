@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { useTheme } from '../context/ThemeContext';
+import { motion } from 'framer-motion';
 import { useNotes } from '../context/NotesContext';
 import styles from './StoryCard.module.css';
 
 const StoryCard = ({ note }) => {
-  const { theme } = useTheme();
   const { likeNote, hasLiked, flagNoteForReview } = useNotes();
   const liked = hasLiked(note.id);
   const [flagged, setFlagged] = useState(false);
@@ -20,18 +19,17 @@ const StoryCard = ({ note }) => {
   };
 
   return (
-    <div
+    <motion.div
       className={styles.card}
-      style={{
-        backgroundColor: theme.cardBg,
-        borderLeftColor: theme.accent,
-      }}
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
     >
-      <p className={styles.content} style={{ color: theme.textWhite }}>
+      <p className={styles.content}>
         {note.content}
       </p>
       <div className={styles.footer}>
-        <span className={styles.time} style={{ color: theme.textMuted }}>
+        <span className={styles.time}>
           {note.time_ago || note.time}
         </span>
         <div className={styles.actions}>
@@ -39,33 +37,24 @@ const StoryCard = ({ note }) => {
             className={styles.flagButton}
             onClick={handleFlag}
             title={flagged ? 'Reported' : 'Report this note'}
-            style={{
-              color: flagged ? theme.accent : theme.textMuted,
-              opacity: flagged ? 1 : 0.5,
-            }}
+            data-flagged={flagged ? '' : undefined}
           >
-            {flagged ? '⚑' : '⚐'}
+            {flagged ? 'Reported' : 'Report'}
           </button>
-          <button
-            className={styles.likeButton}
+          <motion.button
+            className={styles.warmthButton}
             onClick={handleLike}
-            style={{
-              backgroundColor: liked
-                ? 'rgba(201, 168, 124, 0.15)'
-                : 'transparent',
-              borderColor: liked ? theme.accent : theme.border,
-            }}
+            data-liked={liked ? '' : undefined}
+            whileTap={{ scale: 0.92 }}
           >
-            <span style={{ color: liked ? theme.accent : theme.textMuted }}>
-              {liked ? '♥' : '♡'}
-            </span>
-            <span style={{ color: liked ? theme.accent : theme.textMuted }}>
-              {note.likes}
-            </span>
-          </button>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill={liked ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+            </svg>
+            <span>{note.likes}</span>
+          </motion.button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
