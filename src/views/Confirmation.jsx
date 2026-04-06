@@ -1,44 +1,37 @@
-import { useTheme } from '../context/ThemeContext';
+import { motion } from 'framer-motion';
 import { useNotes } from '../context/NotesContext';
-import Bowl from '../components/Bowl';
+import GlowingBowl from '../components/GlowingBowl';
 import styles from './Confirmation.module.css';
 
 const Confirmation = ({ onNavigate }) => {
-  const { theme } = useTheme();
-  const { currentPrompt, notes } = useNotes();
+  const { notes } = useNotes();
 
   return (
     <main className={styles.main}>
       <div className={styles.bowlContainer}>
         <div className={styles.droppingNote} />
-        <Bowl noteCount={notes.length} size="lg" />
+        <GlowingBowl noteCount={notes.length} size="md" />
       </div>
 
-      <h1 className={styles.title} style={{ color: theme.text }}>
-        Story shared
-      </h1>
-      <p className={styles.subtitle} style={{ color: theme.textMuted }}>
-        Your words are now in the bowl.
-      </p>
-      <p className={styles.message} style={{ color: theme.textMuted }}>
-        A stranger somewhere will find them.
-      </p>
+      <h1 className={styles.title}>Story shared</h1>
+      <p className={styles.subtitle}>Your words are now in the bowl.</p>
+      <p className={styles.message}>A stranger somewhere will find them.</p>
 
       <div className={styles.buttons}>
-        <button
-          className={styles.secondaryButton}
+        <motion.button
+          className={styles.outlineButton}
           onClick={() => onNavigate('read')}
-          style={{ borderColor: theme.border, color: theme.textWhite }}
+          whileTap={{ scale: 0.96 }}
         >
-          Read Stories
-        </button>
-        <button
-          className={styles.primaryButton}
+          Read stories
+        </motion.button>
+        <motion.button
+          className={styles.solidButton}
           onClick={() => onNavigate('home')}
-          style={{ backgroundColor: theme.accent }}
+          whileTap={{ scale: 0.96 }}
         >
-          Write Another
-        </button>
+          Write another
+        </motion.button>
       </div>
     </main>
   );

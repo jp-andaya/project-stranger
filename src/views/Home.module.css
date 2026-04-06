@@ -1,39 +1,56 @@
 .main {
-  max-width: 700px;
+  max-width: 680px;
   margin: 0 auto;
-  padding: 48px 24px;
+  padding: 0 24px;
 }
 
-.promptSection {
+/* ── Hero Section ── */
+
+.hero {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  margin-bottom: 48px;
+  padding-top: 80px;
+  padding-bottom: 48px;
 }
 
-.promptBadge {
+.badge {
   display: inline-block;
-  padding: 6px 18px;
-  border-radius: 4px;
-  font-size: 11px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 14px;
+  padding: 6px 16px;
+  border-radius: 100px;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 16px;
 }
 
 .date {
-  font-size: 13px;
-  margin-bottom: 20px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  letter-spacing: 0.03em;
+  margin-bottom: 24px;
 }
 
 .promptText {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 34px;
-  font-style: italic;
+  font-family: var(--font-serif);
+  font-size: var(--text-3xl);
   font-weight: 400;
-  line-height: 1.35;
-  min-height: 92px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  max-width: 600px;
+  min-height: 80px;
 }
 
 .cursor {
+  color: var(--accent-amber);
   animation: blink 1s infinite;
 }
 
@@ -42,70 +59,138 @@
   51%, 100% { opacity: 0; }
 }
 
-.tagContainer {
+.tagRow {
   margin-top: 20px;
 }
 
 .tag {
   display: inline-block;
-  padding: 5px 16px;
-  border: 1px solid;
-  border-radius: 4px;
+  padding: 5px 14px;
+  border-radius: 100px;
+  background: rgba(232, 180, 104, 0.08);
+  color: var(--accent-amber);
+  font-family: var(--font-mono);
   font-size: 10px;
-  letter-spacing: 1.5px;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 .bowlContainer {
-  display: flex;
-  justify-content: center;
-  margin: 0 0 56px;
+  margin-top: 48px;
 }
 
-.writeContainer {
-  border-radius: 8px;
+/* ── Write Section ── */
+
+.writeSection {
+  padding: 0 0 48px;
+}
+
+.sectionDivider {
+  width: 60px;
+  height: 1px;
+  margin: 0 auto 48px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--accent-amber),
+    transparent
+  );
+  opacity: 0.3;
+}
+
+.writeTitle {
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.writeCard {
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: 16px;
   overflow: hidden;
-  margin-bottom: 14px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: border-color var(--transition-base);
+}
+
+.writeCard:focus-within {
+  border-color: rgba(232, 180, 104, 0.2);
 }
 
 .textarea {
   width: 100%;
-  min-height: 180px;
-  padding: 20px;
+  min-height: 160px;
+  padding: 24px;
   background: transparent;
   border: none;
-  font-size: 15px;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
   line-height: 1.75;
+  color: var(--text-primary);
   resize: none;
   outline: none;
-  font-family: inherit;
 }
 
 .textarea::placeholder {
-  color: rgba(255, 255, 255, 0.35);
+  color: var(--text-muted);
+}
+
+.writeFooter {
+  padding: 10px 20px;
+  border-top: 1px solid var(--surface-border);
+  display: flex;
+  justify-content: flex-end;
 }
 
 .charCount {
-  padding: 10px 16px;
-  background: rgba(255, 255, 255, 0.02);
-  display: flex;
-  justify-content: flex-end;
-  font-size: 12px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.submitError {
+  padding: 14px 20px;
+  margin-top: 12px;
+  border-radius: 12px;
+  border-left: 3px solid var(--danger);
+  background: var(--danger-bg);
+  color: var(--danger);
+  font-size: var(--text-sm);
+  line-height: 1.5;
 }
 
 .submitRow {
   display: flex;
-  justify-content: flex-end;
-  margin-bottom: 20px;
+  justify-content: center;
+  margin-top: 20px;
 }
 
 .submitButton {
-  padding: 14px 28px;
-  border-radius: 4px;
-  font-size: 14px;
+  padding: 14px 32px;
+  border-radius: 100px;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
   font-weight: 500;
   border: none;
-  font-family: inherit;
+  cursor: pointer;
+  transition: opacity var(--transition-base);
+  background: var(--accent-amber);
+  color: #0c0a14;
+}
+
+.submitButton:disabled {
+  background: var(--surface-active);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+.submitButton:not(:disabled):hover {
+  opacity: 0.9;
 }
 
 .privacyNote {
@@ -113,35 +198,116 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  margin-bottom: 56px;
-  font-size: 13px;
+  margin-top: 20px;
+  font-size: var(--text-xs);
+  color: var(--text-muted);
 }
 
+/* ── Stories Section ── */
+
 .storiesSection {
-  border-top: 1px solid;
-  padding-top: 36px;
+  padding: 0 0 80px;
 }
 
 .storiesHeader {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  margin-bottom: 28px;
-  font-size: 13px;
+  margin-bottom: 24px;
 }
 
 .storiesTitle {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 24px;
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
   font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
 }
 
-.emptyState {
-  font-style: italic;
+.storiesCount {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
 }
 
 .storiesList {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 14px;
+}
+
+.emptyState {
+  text-align: center;
+  color: var(--text-muted);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--text-lg);
+  padding: 48px 0;
+}
+
+.errorCard {
+  padding: 28px 32px;
+  border-radius: 16px;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-left: 3px solid var(--danger);
+  text-align: left;
+  max-width: 480px;
+}
+
+.errorText {
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.errorHint {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+/* ── Mobile ── */
+
+@media (max-width: 768px) {
+  .hero {
+    padding-top: 70px;
+    min-height: 90dvh;
+  }
+
+  .promptText {
+    font-size: var(--text-2xl);
+    min-height: 64px;
+  }
+
+  .bowlContainer {
+    margin-top: 36px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main {
+    padding: 0 16px;
+  }
+
+  .hero {
+    padding-top: 60px;
+  }
+
+  .promptText {
+    font-size: var(--text-xl);
+    min-height: 48px;
+  }
+
+  .badge {
+    padding: 5px 12px;
+  }
+
+  .textarea {
+    min-height: 140px;
+    padding: 20px;
+  }
+
+  .submitButton {
+    width: 100%;
+    padding: 14px;
+  }
 }

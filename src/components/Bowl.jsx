@@ -1,7 +1,7 @@
 import { useTheme } from '../context/ThemeContext';
 import styles from './Bowl.module.css';
 
-const NOTE_COLORS = ['#e8d5b7', '#d4a574', '#c9a87c', '#b8997a', '#dcc5a0', '#c4b08a'];
+const NOTE_COLORS = ['#E8DDD0', '#D4C4B0', '#C9B99C', '#BFB09A', '#DDD0C0', '#C4B8A0'];
 
 const Bowl = ({ noteCount = 0, size = 'lg', clickable = false, onClick }) => {
   const { theme } = useTheme();

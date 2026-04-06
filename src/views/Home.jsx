@@ -1,17 +1,26 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
 import { useNotes } from '../context/NotesContext';
 import { useTypingAnimation } from '../hooks/useTypingAnimation';
 import { formatDate } from '../utils/date';
-import Bowl from '../components/Bowl';
+import GlowingBowl from '../components/GlowingBowl';
 import StoryCard from '../components/StoryCard';
+import Skeleton from '../components/Skeleton';
 import styles from './Home.module.css';
+
+const staggerContainer = {
+  animate: {
+    transition: { staggerChildren: 0.08 },
+  },
+};
 
 const Home = ({ onNavigate }) => {
   const { theme } = useTheme();
   const { currentPrompt, notes, loading, error, addNote } = useNotes();
   const [text, setText] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   const promptText = currentPrompt?.text || '';
   const { displayed, done } = useTypingAnimation(promptText, 40);
@@ -19,11 +28,11 @@ const Home = ({ onNavigate }) => {
   if (loading) {
     return (
       <main className={styles.main}>
-        <div className={styles.promptSection}>
-          <p style={{ color: theme.textMuted, fontStyle: 'italic' }}>
-            Loading today's prompt...
-          </p>
-        </div>
+        <section className={styles.hero}>
+          <Skeleton width="120px" height="24px" radius={100} style={{ margin: '0 auto 14px' }} />
+          <Skeleton width="70%" height="48px" radius={4} style={{ margin: '0 auto 16px' }} />
+          <Skeleton width="50%" height="48px" radius={4} style={{ margin: '0 auto' }} />
+        </section>
       </main>
     );
   }
@@ -31,30 +40,31 @@ const Home = ({ onNavigate }) => {
   if (error) {
     return (
       <main className={styles.main}>
-        <div className={styles.promptSection}>
-          <p style={{ color: theme.accent, fontStyle: 'italic' }}>
-            {error}
-          </p>
-          <p style={{ color: theme.textMuted, marginTop: '12px', fontSize: '14px' }}>
-            Make sure the backend is running at localhost:8000
-          </p>
-        </div>
+        <section className={styles.hero}>
+          <div className={styles.errorCard}>
+            <p className={styles.errorText}>{error}</p>
+            <p className={styles.errorHint}>Make sure the backend is running at localhost:8000</p>
+          </div>
+        </section>
       </main>
     );
   }
 
   const promptNotes = notes;
+  const isReady = text.length >= 20 && !submitting;
 
   const handleSubmit = async () => {
-    if (text.length < 20 || submitting) return;
-
+    if (!isReady) return;
+    setSubmitError('');
     try {
       setSubmitting(true);
       await addNote(text, currentPrompt.id);
       setText('');
       onNavigate('confirm');
     } catch (err) {
-      console.error('Submit failed:', err);
+      setSubmitError(
+        err.message || 'Your story could not be shared. Please ensure your content is respectful.'
+      );
     } finally {
       setSubmitting(false);
     }
@@ -62,121 +72,110 @@ const Home = ({ onNavigate }) => {
 
   return (
     <main className={styles.main}>
-      {/* Prompt Section */}
-      <div className={styles.promptSection}>
-        <div
-          className={styles.promptBadge}
-          style={{ backgroundColor: theme.bgSecondary, color: theme.textMuted }}
-        >
-          TODAY'S PROMPT
-        </div>
-        <div className={styles.date} style={{ color: theme.textMuted }}>
+      {/* ── Hero Section ── */}
+      <section className={styles.hero}>
+        <div className={styles.badge}>TODAY'S PROMPT</div>
+        <div className={styles.date}>
           {formatDate(currentPrompt.scheduled_date)}
         </div>
-        <h1 className={styles.promptText} style={{ color: theme.text }}>
+        <h1 className={styles.promptText}>
           {displayed}
           {!done && <span className={styles.cursor}>|</span>}
         </h1>
-        <div className={styles.tagContainer}>
-          <span
-            className={styles.tag}
-            style={{ borderColor: theme.border, color: theme.textMuted }}
-          >
+        <div className={styles.tagRow}>
+          <span className={styles.tag}>
             {currentPrompt.category || 'TRUTH'}
           </span>
         </div>
-      </div>
 
-      {/* Bowl */}
-      <div className={styles.bowlContainer}>
-        <Bowl
-          noteCount={promptNotes.length}
-          size="lg"
-          clickable
-          onClick={() => onNavigate('read')}
-        />
-      </div>
-
-      {/* Write Section */}
-      <div
-        className={styles.writeContainer}
-        style={{ backgroundColor: theme.bgSecondary }}
-      >
-        <textarea
-          className={styles.textarea}
-          value={text}
-          onChange={(e) => setText(e.target.value.slice(0, 2000))}
-          placeholder="Share your story anonymously..."
-          style={{ color: theme.textWhite }}
-          disabled={submitting}
-        />
-        <div className={styles.charCount}>
-          <span style={{ color: theme.textMuted }}>{text.length}/2000</span>
+        <div className={styles.bowlContainer}>
+          <GlowingBowl
+            noteCount={promptNotes.length}
+            size="lg"
+            clickable
+            onClick={() => onNavigate('read')}
+          />
         </div>
-      </div>
+      </section>
 
-      <div className={styles.submitRow}>
-        <button
-          className={styles.submitButton}
-          onClick={handleSubmit}
-          disabled={text.length < 20 || submitting}
-          style={{
-            backgroundColor:
-              text.length >= 20 && !submitting
-                ? theme.accent
-                : 'rgba(255,255,255,0.1)',
-            color:
-              text.length >= 20 && !submitting ? '#0a0a0b' : theme.textMuted,
-            cursor:
-              text.length >= 20 && !submitting ? 'pointer' : 'not-allowed',
-          }}
-        >
-          {submitting ? 'Sharing...' : 'Share Anonymously'}
-        </button>
-      </div>
+      {/* ── Write Section ── */}
+      <section className={styles.writeSection}>
+        <div className={styles.sectionDivider} />
 
-      <div className={styles.privacyNote}>
-        <svg
-          width="15"
-          height="15"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke={theme.textMuted}
-          strokeWidth="1.5"
-        >
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-        </svg>
-        <span style={{ color: theme.textMuted }}>
+        <h2 className={styles.writeTitle}>Share your story</h2>
+
+        <div className={styles.writeCard}>
+          <textarea
+            className={styles.textarea}
+            value={text}
+            onChange={(e) => {
+              setText(e.target.value.slice(0, 2000));
+              if (submitError) setSubmitError('');
+            }}
+            placeholder="Write something only a stranger would understand..."
+            disabled={submitting}
+          />
+          <div className={styles.writeFooter}>
+            <span className={styles.charCount}>{text.length}/2000</span>
+          </div>
+        </div>
+
+        {submitError && (
+          <div className={styles.submitError}>
+            {submitError}
+          </div>
+        )}
+
+        <div className={styles.submitRow}>
+          <motion.button
+            className={styles.submitButton}
+            onClick={handleSubmit}
+            disabled={!isReady}
+            whileTap={isReady ? { scale: 0.96 } : undefined}
+          >
+            {submitting ? 'Sharing...' : 'Drop into the bowl'}
+          </motion.button>
+        </div>
+
+        <p className={styles.privacyNote}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>
           Your identity remains completely anonymous
-        </span>
-      </div>
+        </p>
+      </section>
 
-      {/* Stories Section */}
-      <div
-        className={styles.storiesSection}
-        style={{ borderTopColor: theme.border }}
-      >
-        <div className={styles.storiesHeader}>
-          <h2 className={styles.storiesTitle} style={{ color: theme.textWhite }}>
-            Stories from Strangers
-          </h2>
-          <span style={{ color: theme.textMuted }}>
-            {promptNotes.length} shared
-          </span>
-        </div>
+      {/* ── Stories Section ── */}
+      {promptNotes.length > 0 && (
+        <section className={styles.storiesSection}>
+          <div className={styles.sectionDivider} />
 
-        {promptNotes.length === 0 ? (
-          <p className={styles.emptyState} style={{ color: theme.textMuted }}>
-            No stories yet. Be the first to share.
-          </p>
-        ) : (
-          <div className={styles.storiesList}>
+          <div className={styles.storiesHeader}>
+            <h2 className={styles.storiesTitle}>Stories from strangers</h2>
+            <span className={styles.storiesCount}>{promptNotes.length} shared</span>
+          </div>
+
+          <motion.div
+            className={styles.storiesList}
+            variants={staggerContainer}
+            initial="initial"
+            animate="animate"
+          >
             {promptNotes.slice(0, 5).map((note) => (
               <StoryCard key={note.id} note={note} />
             ))}
-          </div>
-        )}
-      </div>
+          </motion.div>
+        </section>
+      )}
+
+      {promptNotes.length === 0 && (
+        <section className={styles.storiesSection}>
+          <div className={styles.sectionDivider} />
+          <p className={styles.emptyState}>
+            No stories yet. Be the first to share.
+          </p>
+        </section>
+      )}
     </main>
   );
 };

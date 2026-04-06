@@ -1,11 +1,6 @@
-import { useTheme } from '../context/ThemeContext';
-import BowlIcon from './BowlIcon';
-import ThemeToggle from './ThemeToggle';
 import styles from './Header.module.css';
 
 const Header = ({ currentView, onNavigate }) => {
-  const { theme } = useTheme();
-
   const navItems = [
     { id: 'home', label: 'Today' },
     { id: 'archive', label: 'Archive' },
@@ -14,38 +9,31 @@ const Header = ({ currentView, onNavigate }) => {
   ];
 
   return (
-    <header
-      className={styles.header}
-      style={{
-        backgroundColor: theme.bg,
-        borderBottomColor: theme.borderLight,
-      }}
-    >
-      <div className={styles.container}>
+    <header className={styles.header}>
+      <nav className={styles.pill}>
         <button
-          className={styles.logoButton}
+          className={styles.logo}
           onClick={() => onNavigate('home')}
           aria-label="Go to home"
         >
-          <BowlIcon />
+          Stranger
         </button>
 
-        <nav className={styles.nav}>
+        <div className={styles.divider} />
+
+        <div className={styles.links}>
           {navItems.map((item) => (
             <button
               key={item.id}
-              className={styles.navButton}
+              className={styles.navLink}
               onClick={() => onNavigate(item.id)}
-              style={{
-                color: currentView === item.id ? theme.text : theme.textMuted,
-              }}
+              data-active={currentView === item.id ? '' : undefined}
             >
               {item.label}
             </button>
           ))}
-          <ThemeToggle />
-        </nav>
-      </div>
+        </div>
+      </nav>
     </header>
   );
 };

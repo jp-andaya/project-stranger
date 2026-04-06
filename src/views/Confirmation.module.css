@@ -1,14 +1,14 @@
 .main {
   max-width: 480px;
   margin: 0 auto;
-  padding: 90px 24px;
+  padding: 140px 24px 64px;
   text-align: center;
 }
 
 .bowlContainer {
   position: relative;
   display: inline-block;
-  margin-bottom: 36px;
+  margin-bottom: 32px;
 }
 
 .droppingNote {
@@ -16,70 +16,94 @@
   top: -40px;
   left: 50%;
   transform: translateX(-50%);
-  width: 26px;
-  height: 16px;
-  background: #e8d5b7;
+  width: 22px;
+  height: 14px;
+  background: var(--accent-amber);
   border-radius: 2px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
-  animation: dropNote 1.3s ease-out forwards;
+  box-shadow: 0 0 12px var(--glow-amber);
+  animation: dropNote 1.6s ease-out forwards;
+  z-index: 10;
 }
 
 @keyframes dropNote {
-  0% {
-    top: -55px;
-    opacity: 1;
-  }
-  75% {
-    opacity: 1;
-  }
-  100% {
-    top: 20%;
-    opacity: 0;
-  }
+  0% { top: -55px; opacity: 1; }
+  75% { opacity: 1; }
+  100% { top: 20%; opacity: 0; }
 }
 
 .title {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 30px;
-  font-style: italic;
+  font-family: var(--font-serif);
+  font-size: var(--text-2xl);
   font-weight: 400;
-  margin-bottom: 18px;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin-bottom: 12px;
 }
 
 .subtitle {
-  font-size: 15px;
-  margin-bottom: 10px;
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  margin-bottom: 6px;
 }
 
 .message {
-  font-size: 14px;
-  margin-bottom: 44px;
-  opacity: 0.65;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  margin-bottom: 40px;
 }
 
 .buttons {
   display: flex;
   justify-content: center;
-  gap: 14px;
+  gap: 12px;
 }
 
-.secondaryButton {
+.outlineButton {
   padding: 13px 26px;
   background: transparent;
-  border: 1px solid;
-  border-radius: 4px;
-  font-size: 14px;
+  border: 1px solid var(--surface-border);
+  border-radius: 100px;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
   cursor: pointer;
-  font-family: inherit;
+  transition: background var(--transition-base), border-color var(--transition-base);
 }
 
-.primaryButton {
+.outlineButton:hover {
+  background: var(--surface);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.solidButton {
   padding: 13px 26px;
-  color: #0a0a0b;
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
+  background: var(--accent-amber);
   border: none;
+  border-radius: 100px;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: #0c0a14;
   cursor: pointer;
-  font-family: inherit;
+  transition: opacity var(--transition-base);
+}
+
+.solidButton:hover {
+  opacity: 0.9;
+}
+
+@media (max-width: 480px) {
+  .main {
+    padding: 100px 16px 48px;
+  }
+
+  .buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .outlineButton,
+  .solidButton {
+    padding: 14px;
+  }
 }
