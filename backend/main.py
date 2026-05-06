@@ -2,8 +2,8 @@
 Project Stranger — Backend API
 
 FastAPI server with SQLite database.
-Run with: uvicorn main:app --reload
-API docs: http://localhost:8000/docs
+Run with: uvicorn main:app --reload --port 8001
+API docs: http://localhost:8001/docs
 """
 
 from fastapi import FastAPI
