@@ -1,0 +1,7 @@
+<svg width="200" height="48" viewBox="0 0 200 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- "STRANGER" in mono/uppercase style -->
+  <text x="100" y="32" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="18" font-weight="500" fill="#e8b468" letter-spacing="6" text-transform="uppercase">STRANGER</text>
+  <!-- Dot accents -->
+  <circle cx="30" cy="24" r="2" fill="#e8b468" opacity="0.3"/>
+  <circle cx="170" cy="24" r="2" fill="#c4a0ff" opacity="0.3"/>
+</svg>

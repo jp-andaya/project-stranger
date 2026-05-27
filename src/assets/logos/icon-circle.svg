@@ -1,0 +1,16 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer ring -->
+  <circle cx="32" cy="32" r="28" stroke="#e8b468" stroke-width="1.5" opacity="0.3"/>
+  <!-- Inner glow -->
+  <circle cx="32" cy="32" r="20" fill="url(#glow3)" opacity="0.4"/>
+  <!-- Stylized S for Stranger - a flowing single stroke -->
+  <path d="M38 18 Q28 18 26 24 Q24 30 32 32 Q40 34 38 40 Q36 46 26 46" stroke="#e8b468" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <!-- Dot accent -->
+  <circle cx="42" cy="22" r="2" fill="#e8b468" opacity="0.5"/>
+  <defs>
+    <radialGradient id="glow3" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#c4a0ff" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#c4a0ff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>

@@ -1,75 +1,40 @@
 import { useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
-import { ThemeProvider } from './context/ThemeContext';
-import { NotesProvider } from './context/NotesContext';
-import Header from './components/Header';
-import Home from './views/Home';
-import Read from './views/Read';
-import Confirmation from './views/Confirmation';
-import Archive from './views/Archive';
-import About from './views/About';
-import Admin from './views/Admin';
+import { AnimatePresence } from 'framer-motion';
+import { NotesProvider } from './stores/useNotes';
+import Nav from './components/Nav';
+import PageShell from './components/PageShell';
+import HomePage from './pages/HomePage';
+import ReadPage from './pages/ReadPage';
+import ConfirmPage from './pages/ConfirmPage';
+import ArchivePage from './pages/ArchivePage';
+import AboutPage from './pages/AboutPage';
+import AdminPage from './pages/AdminPage';
 
-const pageVariants = {
-  initial: { opacity: 0, y: 16 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.23, 1, 0.32, 1] } },
-  exit: { opacity: 0, y: -8, transition: { duration: 0.25, ease: [0.23, 1, 0.32, 1] } },
-};
+export default function App() {
+  const [view, setView] = useState('home');
 
-const AppContent = () => {
-  const [currentView, setCurrentView] = useState('home');
-
-  const handleNavigate = (view) => {
-    setCurrentView(view);
+  const go = (v) => {
+    setView(v);
     window.scrollTo(0, 0);
   };
 
-  const renderView = () => {
-    switch (currentView) {
-      case 'home':
-        return <Home onNavigate={handleNavigate} />;
-      case 'read':
-        return <Read onNavigate={handleNavigate} />;
-      case 'confirm':
-        return <Confirmation onNavigate={handleNavigate} />;
-      case 'archive':
-        return <Archive onNavigate={handleNavigate} />;
-      case 'about':
-        return <About onNavigate={handleNavigate} />;
-      case 'admin':
-        return <Admin onNavigate={handleNavigate} />;
-      default:
-        return <Home onNavigate={handleNavigate} />;
-    }
+  const pages = {
+    home: <HomePage go={go} />,
+    read: <ReadPage go={go} />,
+    confirm: <ConfirmPage go={go} />,
+    archive: <ArchivePage go={go} />,
+    about: <AboutPage go={go} />,
+    admin: <AdminPage go={go} />,
   };
 
   return (
-    <>
-      <Header currentView={currentView} onNavigate={handleNavigate} />
+    <NotesProvider>
+      <Nav current={view} go={go} />
       <AnimatePresence mode="wait">
-        <motion.div
-          key={currentView}
-          variants={pageVariants}
-          initial="initial"
-          animate="animate"
-          exit="exit"
-          style={{ flex: 1 }}
-        >
-          {renderView()}
-        </motion.div>
+        <PageShell key={view}>
+          {pages[view] || pages.home}
+        </PageShell>
       </AnimatePresence>
-    </>
+    </NotesProvider>
   );
-};
-
-const App = () => {
-  return (
-    <ThemeProvider>
-      <NotesProvider>
-        <AppContent />
-      </NotesProvider>
-    </ThemeProvider>
-  );
-};
-
-export default App;
+}
