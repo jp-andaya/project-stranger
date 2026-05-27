@@ -40,51 +40,18 @@
   --sidebar-ring: oklch(0 0 0 / 0.2);
 }
 
-.dark {
-  --background: oklch(0 0 0);
-  --foreground: oklch(1 0 0);
-  --card: oklch(0.1 0 0);
-  --card-foreground: oklch(1 0 0);
-  --popover: oklch(0 0 0);
-  --popover-foreground: oklch(1 0 0);
-  --primary: oklch(1 0 0);
-  --primary-foreground: oklch(0 0 0);
-  --secondary: oklch(0.3 0 0);
-  --secondary-foreground: oklch(1 0 0);
-  --muted: oklch(0.3 0 0);
-  --muted-foreground: oklch(0.7 0 0);
-  --accent: oklch(0.3 0 0);
-  --accent-foreground: oklch(1 0 0);
-  --destructive: oklch(0.396 0.141 25.723);
-  --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: oklch(0.3 0 0);
-  --input: oklch(0.3 0 0);
-  --ring: oklch(1 0 0 / 0.2);
-  --chart-1: oklch(1 0 0);
-  --chart-2: oklch(0.7 0 0);
-  --chart-3: oklch(0.5 0 0);
-  --chart-4: oklch(0.3 0 0);
-  --chart-5: oklch(1 0 0);
-  --sidebar: oklch(0.1 0 0);
-  --sidebar-foreground: oklch(1 0 0);
-  --sidebar-primary: oklch(1 0 0);
-  --sidebar-primary-foreground: oklch(0 0 0);
-  --sidebar-accent: oklch(0.3 0 0);
-  --sidebar-accent-foreground: oklch(1 0 0);
-  --sidebar-border: oklch(0.3 0 0);
-  --sidebar-ring: oklch(1 0 0 / 0.2);
-}
-
 /* ── Custom Theme ──────────────────── */
 
 @theme {
   --font-serif: 'Instrument Serif', Georgia, serif;
-  --font-sans: 'Switzer', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
 
-  --color-bg: #0c0a14;
-  --color-amber: #e8b468;
-  --color-lilac: #c4a0ff;
+  --color-bg: #F2EDE4;
+  --color-surface: #EAE2F8;
+  --color-indigo: #2E1A6E;
+  --color-purple: #7B5EA7;
+  --color-decorative: #B8A0E8;
   --color-warmth: #ff9b7a;
   --color-danger: #ff6b5a;
 }
@@ -99,24 +66,20 @@ html {
 
 body {
   font-family: var(--font-sans);
-  color: #f0e6d3;
-  background-color: var(--color-bg);
-  background-image:
-    radial-gradient(ellipse at 50% 30%, rgba(180, 140, 255, 0.06) 0%, transparent 70%),
-    radial-gradient(ellipse at 30% 80%, rgba(200, 160, 100, 0.04) 0%, transparent 60%),
-    radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(8, 5, 18, 0.7) 100%);
+  color: #2E1A6E;
+  background-color: #F2EDE4;
   background-attachment: fixed;
   min-height: 100vh;
 }
 
-/* Grain overlay */
+/* Subtle grain texture */
 body::after {
   content: '';
   position: fixed;
   inset: 0;
   z-index: 9999;
   pointer-events: none;
-  opacity: 0.02;
+  opacity: 0.015;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-repeat: repeat;
   background-size: 256px 256px;
@@ -126,15 +89,17 @@ body::after {
 
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.15); }
+::-webkit-scrollbar-thumb { background: rgba(46,26,110,0.12); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(46,26,110,0.25); }
+
+/* ── Focus ─────────────────────────── */
+
+:focus-visible {
+  outline: 2px solid #2E1A6E;
+  outline-offset: 2px;
+}
 
 /* ── Animations ────────────────────── */
-
-@keyframes glow-pulse {
-  0%, 100% { opacity: 0.4; transform: scale(1); }
-  50% { opacity: 0.65; transform: scale(1.03); }
-}
 
 @keyframes float {
   0%, 100% { transform: translateY(0) rotate(0deg); }
@@ -150,11 +115,9 @@ body::after {
   100% { transform: translate(0,0) rotate(0deg); }
 }
 
-@keyframes firefly {
-  0%, 100% { opacity: 0; transform: translate(0,0); }
-  20% { opacity: 0.7; }
-  50% { opacity: 0.4; transform: translate(8px,-16px); }
-  80% { opacity: 0.6; }
+@keyframes sparkle-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.65; transform: scale(1.08); }
 }
 
 @keyframes blink {

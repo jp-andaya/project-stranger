@@ -1,0 +1,21 @@
+<svg width="240" height="64" viewBox="0 0 240 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Jar icon (scaled down) -->
+  <g transform="translate(8, 4) scale(0.875)">
+    <circle cx="32" cy="36" r="20" fill="url(#cglow)" opacity="0.3"/>
+    <path d="M18 20 Q18 20 15 26 Q11 34 11 42 Q11 54 20 58 Q26 62 32 62 Q38 62 44 58 Q53 54 53 42 Q53 34 49 26 Q46 20 46 20" fill="rgba(255,255,255,0.06)" stroke="#e8b468" stroke-width="1.5" stroke-linecap="round"/>
+    <rect x="21" y="14" width="22" height="7" rx="2" fill="rgba(255,255,255,0.04)" stroke="#e8b468" stroke-width="1.2"/>
+    <rect x="19" y="11" width="26" height="4" rx="2" fill="rgba(255,255,255,0.06)" stroke="#e8b468" stroke-width="1.2"/>
+    <rect x="24" y="36" width="6" height="4" rx="1" fill="#e8b468" opacity="0.7" transform="rotate(-12 27 38)"/>
+    <rect x="32" y="42" width="7" height="4.5" rx="1" fill="#e8b468" opacity="0.5" transform="rotate(8 35.5 44.25)"/>
+    <rect x="26" y="48" width="5" height="3.5" rx="1" fill="#e8b468" opacity="0.6" transform="rotate(-5 28.5 49.75)"/>
+    <path d="M17 28 Q15 36 16 44" stroke="rgba(255,255,255,0.12)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  </g>
+  <!-- Wordmark -->
+  <text x="80" y="40" font-family="'Instrument Serif', Georgia, serif" font-size="28" fill="#f0e6d3" letter-spacing="-0.5">Stranger</text>
+  <defs>
+    <radialGradient id="cglow" cx="0.5" cy="0.6" r="0.5">
+      <stop offset="0%" stop-color="#e8b468" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#e8b468" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>
