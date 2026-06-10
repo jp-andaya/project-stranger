@@ -1,0 +1,193 @@
+/* =====================================================
+   Pondr — Color tokens
+   Two themes (light / dark) × three accent families
+   (purple · sand · teal). Selected on the root element
+   via [data-theme] + [data-accent]. Defaults: light/purple.
+   ===================================================== */
+
+/* ---------- LIGHT · PURPLE (default) ---------- */
+:root,
+[data-theme="light"][data-accent="purple"] {
+  --p-bg:            #f4ead4;
+  --p-bg-2:          #ebdfc6;
+  --p-card:          #e8dec9;
+  --p-card-2:        #ede3cf;
+  --p-card-stroke:   rgba(73, 56, 181, 0.18);
+  --p-divider:       rgba(73, 56, 181, 0.10);
+
+  --p-text:          #3a1f8a;
+  --p-text-2:        #4a3a8a;
+  --p-text-3:        #6e5ea8;
+  --p-text-muted:    #9989b8;
+
+  --p-accent:        #4938b5;
+  --p-accent-soft:   #d8c8ec;
+  --p-accent-softer: #e7dbf2;
+  --p-accent-on:     #ffffff;
+
+  --p-note:          #c8b9e3;
+  --p-note-2:        #b09bd4;
+
+  --p-bowl-stroke:   #2a1c6e;
+  --p-bowl-paper:    #cab9e4;
+  --p-bowl-paper-2:  #b1a0d3;
+  --p-bowl-shadow:   #c2b3df;
+
+  --p-plant:         #d4c4ed;
+  --p-plant-2:       #c5b3e4;
+}
+
+/* ---------- DARK · PURPLE ---------- */
+[data-theme="dark"][data-accent="purple"] {
+  --p-bg:            #1d1633;
+  --p-bg-2:          #271e43;
+  --p-card:          #2a2050;
+  --p-card-2:        #251c44;
+  --p-card-stroke:   rgba(184, 161, 247, 0.20);
+  --p-divider:       rgba(184, 161, 247, 0.12);
+
+  --p-text:          #ebddff;
+  --p-text-2:        #cdc0eb;
+  --p-text-3:        #a89cc8;
+  --p-text-muted:    #7a6fa0;
+
+  --p-accent:        #9683f0;
+  --p-accent-soft:   #3d2f72;
+  --p-accent-softer: #2e2358;
+  --p-accent-on:     #ffffff;
+
+  --p-note:          #b8a4dd;
+  --p-note-2:        #9d87cb;
+
+  --p-bowl-stroke:   #c2b3e8;
+  --p-bowl-paper:    #a896cf;
+  --p-bowl-paper-2:  #8a78b8;
+  --p-bowl-shadow:   #14102a;
+
+  --p-plant:         #3d3068;
+  --p-plant-2:       #4a3a7d;
+}
+
+/* ---------- LIGHT · SAND (warm amber on cream) ---------- */
+[data-theme="light"][data-accent="sand"] {
+  --p-bg:            #f3e7cf;
+  --p-bg-2:          #ead9b8;
+  --p-card:          #ead8b8;
+  --p-card-2:        #f0e1c4;
+  --p-card-stroke:   rgba(122, 84, 24, 0.18);
+  --p-divider:       rgba(122, 84, 24, 0.10);
+
+  --p-text:          #5e3f0e;
+  --p-text-2:        #6f4f1e;
+  --p-text-3:        #95753f;
+  --p-text-muted:    #b39862;
+
+  --p-accent:        #a86b15;
+  --p-accent-soft:   #ecd6a8;
+  --p-accent-softer: #f3e3bf;
+  --p-accent-on:     #ffffff;
+
+  --p-note:          #e3c887;
+  --p-note-2:        #c9aa5e;
+
+  --p-bowl-stroke:   #3e2a06;
+  --p-bowl-paper:    #e0c581;
+  --p-bowl-paper-2:  #c5a55a;
+  --p-bowl-shadow:   #d6be8a;
+
+  --p-plant:         #e5d3a3;
+  --p-plant-2:       #d4be84;
+}
+
+/* ---------- DARK · SAND ---------- */
+[data-theme="dark"][data-accent="sand"] {
+  --p-bg:            #281d10;
+  --p-bg-2:          #34281a;
+  --p-card:          #382b1a;
+  --p-card-2:        #322619;
+  --p-card-stroke:   rgba(230, 197, 124, 0.20);
+  --p-divider:       rgba(230, 197, 124, 0.12);
+
+  --p-text:          #f0e0b6;
+  --p-text-2:        #d8c393;
+  --p-text-3:        #b3996a;
+  --p-text-muted:    #816a44;
+
+  --p-accent:        #e0b566;
+  --p-accent-soft:   #4a3a1c;
+  --p-accent-softer: #3a2d16;
+  --p-accent-on:     #2a1c06;
+
+  --p-note:          #d8b86e;
+  --p-note-2:        #b89856;
+
+  --p-bowl-stroke:   #f0d99b;
+  --p-bowl-paper:    #c9a85e;
+  --p-bowl-paper-2:  #a88842;
+  --p-bowl-shadow:   #1a1308;
+
+  --p-plant:         #3d2f15;
+  --p-plant-2:       #4a3a1f;
+}
+
+/* ---------- LIGHT · TEAL ---------- */
+[data-theme="light"][data-accent="teal"] {
+  --p-bg:            #e7efe6;
+  --p-bg-2:          #d6e3d4;
+  --p-card:          #d6e3d4;
+  --p-card-2:        #dfeadd;
+  --p-card-stroke:   rgba(16, 92, 86, 0.18);
+  --p-divider:       rgba(16, 92, 86, 0.10);
+
+  --p-text:          #0f4a47;
+  --p-text-2:        #1c5e5b;
+  --p-text-3:        #4a8682;
+  --p-text-muted:    #87a8a4;
+
+  --p-accent:        #1e7e76;
+  --p-accent-soft:   #b8d6d2;
+  --p-accent-softer: #cfe1de;
+  --p-accent-on:     #ffffff;
+
+  --p-note:          #a6cbc6;
+  --p-note-2:        #82b1ab;
+
+  --p-bowl-stroke:   #0a3a37;
+  --p-bowl-paper:    #94c0bb;
+  --p-bowl-paper-2:  #73a59f;
+  --p-bowl-shadow:   #aac9c4;
+
+  --p-plant:         #b8d4d0;
+  --p-plant-2:       #a3c5c0;
+}
+
+/* ---------- DARK · TEAL ---------- */
+[data-theme="dark"][data-accent="teal"] {
+  --p-bg:            #0e1f1d;
+  --p-bg-2:          #163230;
+  --p-card:          #143432;
+  --p-card-2:        #122c2a;
+  --p-card-stroke:   rgba(170, 222, 215, 0.20);
+  --p-divider:       rgba(170, 222, 215, 0.12);
+
+  --p-text:          #d2efeb;
+  --p-text-2:        #aed4cf;
+  --p-text-3:        #80b0ab;
+  --p-text-muted:    #557d78;
+
+  --p-accent:        #5fc4ba;
+  --p-accent-soft:   #1f4843;
+  --p-accent-softer: #173834;
+  --p-accent-on:     #06201d;
+
+  --p-note:          #88c2bb;
+  --p-note-2:        #61a39c;
+
+  --p-bowl-stroke:   #b0e3dc;
+  --p-bowl-paper:    #6cb1a9;
+  --p-bowl-paper-2:  #4f928a;
+  --p-bowl-shadow:   #061513;
+
+  --p-plant:         #1c3a37;
+  --p-plant-2:       #25524d;
+}

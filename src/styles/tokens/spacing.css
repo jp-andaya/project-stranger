@@ -1,0 +1,47 @@
+/* =====================================================
+   Pondr — Spacing, radii, shadow & motion tokens
+   Formalised from the prototype. The UI is soft and rounded:
+   generous radii, almost-flat surfaces, shadows reserved only
+   for accent/floating elements.
+   ===================================================== */
+
+:root {
+  /* ---- spacing scale (px) ---- */
+  --p-sp-1:  4px;
+  --p-sp-2:  8px;
+  --p-sp-3:  12px;
+  --p-sp-4:  14px;
+  --p-sp-5:  16px;
+  --p-sp-6:  18px;
+  --p-sp-7:  20px;
+  --p-sp-8:  22px;
+  --p-sp-9:  24px;
+  --p-sp-10: 28px;
+  --p-sp-12: 32px;
+
+  /* ---- corner radii ---- */
+  --p-r-note:   2px;    /* folded paper notes inside the bowl */
+  --p-r-sm:     4px;    /* tiny tags */
+  --p-r-chip:   12px;   /* modal action buttons */
+  --p-r-md:     14px;   /* note cards, ghost buttons, primary buttons */
+  --p-r-lg:     16px;   /* feed notes, primary CTA, tab targets */
+  --p-r-xl:     18px;   /* lists, streak/summary cards */
+  --p-r-2xl:    22px;   /* prompt card, compose card, modal */
+  --p-r-pill:   999px;  /* chips, icon buttons, FAB, dots, tokens */
+
+  /* ---- shadows (used sparingly — only floating/accent elements) ---- */
+  --p-shadow-note:   0 1px 2px rgba(0,0,0,0.15);
+  --p-shadow-fab:    0 14px 28px -8px rgba(58, 31, 138, 0.45),
+                     0 4px 12px -2px rgba(58, 31, 138, 0.25);
+  --p-shadow-cta:    0 10px 22px -10px rgba(58, 31, 138, 0.50);
+  --p-shadow-tabbar: 0 -6px 20px -10px rgba(58, 31, 138, 0.16);
+  --p-shadow-modal:  0 10px 30px -6px rgba(0,0,0,0.30);
+
+  /* ---- motion ---- */
+  --p-dur-fast:  160ms;
+  --p-dur-med:   180ms;
+  --p-dur-slow:  280ms;
+  --p-dur-screen: 360ms;
+  --p-ease-out:  cubic-bezier(.22,.61,.36,1);
+  --p-ease-in:   cubic-bezier(.55,.06,.68,.19);
+}
