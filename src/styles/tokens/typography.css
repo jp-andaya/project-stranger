@@ -1,0 +1,47 @@
+/* =====================================================
+   Pondr — Typography tokens
+   A two-family editorial system:
+   · Cormorant Garamond (serif) — prompts, titles, note bodies,
+     anything emotional / editorial. Often italic.
+   · Inter (sans) — UI labels, metadata, buttons, body chrome.
+   Fonts are loaded from Google Fonts CDN (see note in readme.md).
+   ===================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* ---- families ---- */
+  --p-font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --p-font-sans:  'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+
+  /* ---- weights ---- */
+  --p-fw-light:   300;
+  --p-fw-regular: 400;
+  --p-fw-medium:  500;
+  --p-fw-semi:    600;
+  --p-fw-bold:    700;
+
+  /* ---- type scale (px) ---- */
+  --p-fs-wordmark:  30px;  /* serif logo / page wordmark */
+  --p-fs-display:   32px;  /* wins hero headline (serif 700) */
+  --p-fs-title:     28px;  /* prompt-of-day (serif 600) */
+  --p-fs-h2:        26px;  /* feed-note titles (serif 700) */
+  --p-fs-h3:        24px;  /* section titles (serif 600) */
+  --p-fs-modal:     22px;  /* opened-note body (serif 500) */
+  --p-fs-body-lg:   18px;  /* compose textarea (serif 500) */
+  --p-fs-body:      15px;  /* note bodies, primary actions */
+  --p-fs-ui:        14px;  /* buttons, list rows, chips-lg */
+  --p-fs-meta:      13px;  /* subtitles, eyebrows */
+  --p-fs-label:     12px;  /* chips, captions */
+  --p-fs-micro:     11px;  /* meta lines, author tokens, tab labels */
+
+  /* ---- line heights ---- */
+  --p-lh-tight:   1.15;  /* serif headings */
+  --p-lh-snug:    1.32;  /* note bodies */
+  --p-lh-body:    1.45;  /* feed body prose */
+  --p-lh-relaxed: 1.75;  /* long-form reading */
+
+  /* ---- tracking ---- */
+  --p-ls-tight:   -0.5px; /* wordmark */
+  --p-ls-token:   0.04em; /* author number tokens */
+}
