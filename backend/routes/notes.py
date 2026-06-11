@@ -6,8 +6,6 @@ Endpoints
 POST   /api/notes              Submit an anonymous story (with moderation)
 GET    /api/notes/random/{id}  Pick a random note for a prompt
 GET    /api/notes/prompt/{id}  List all notes for a prompt
-POST   /api/notes/{id}/like    Send warmth (like) to a note
-GET    /api/notes/{id}/liked   Check if session already liked a note
 """
 
 from datetime import datetime, timezone
@@ -16,8 +14,8 @@ from sqlalchemy.orm import Session
 from sqlalchemy import func
 
 from database import get_db
-from models import Note, Like, Prompt
-from schemas import NoteCreate, NoteResponse, LikeRequest, LikeResponse
+from models import Note, Prompt
+from schemas import NoteCreate, NoteResponse
 from moderation import moderate_content, ModerationResult
 
 router = APIRouter(prefix="/api/notes", tags=["Notes"])
@@ -54,7 +52,6 @@ def note_to_response(note: Note) -> NoteResponse:
         id=note.id,
         content=note.content,
         prompt_id=note.prompt_id,
-        likes=note.likes,
         created_at=note.created_at,
         time_ago=time_ago(note.created_at),
     )
@@ -141,50 +138,3 @@ def get_notes_by_prompt(
         .all()
     )
     return [note_to_response(n) for n in notes]
-
-
-# ──────────────────────────────────────
-#  LIKE A NOTE (SEND WARMTH)
-# ──────────────────────────────────────
-
-@router.post("/{note_id}/like", response_model=LikeResponse)
-def like_note(note_id: int, payload: LikeRequest, db: Session = Depends(get_db)):
-    """Send warmth to a note. One like per session token per note."""
-    note = db.query(Note).filter(Note.id == note_id).first()
-    if not note:
-        raise HTTPException(status_code=404, detail="Note not found")
-
-    existing = (
-        db.query(Like)
-        .filter(Like.note_id == note_id, Like.session_token == payload.session_token)
-        .first()
-    )
-    if existing:
-        return LikeResponse(note_id=note_id, likes=note.likes, already_liked=True)
-
-    like = Like(note_id=note_id, session_token=payload.session_token)
-    db.add(like)
-    note.likes += 1
-    db.commit()
-    db.refresh(note)
-
-    return LikeResponse(note_id=note_id, likes=note.likes, already_liked=False)
-
-
-# ──────────────────────────────────────
-#  CHECK IF LIKED
-# ──────────────────────────────────────
-
-@router.get("/{note_id}/liked")
-def check_liked(
-    note_id: int,
-    session_token: str = Query(...),
-    db: Session = Depends(get_db),
-):
-    """Check if a session has already liked a note."""
-    existing = (
-        db.query(Like)
-        .filter(Like.note_id == note_id, Like.session_token == session_token)
-        .first()
-    )
-    return {"liked": existing is not None}

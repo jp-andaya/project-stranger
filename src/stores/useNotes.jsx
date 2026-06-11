@@ -1,12 +1,10 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { getSessionToken } from '../lib/session';
 import {
   fetchTodayPrompt,
   fetchArchivePrompts,
   fetchNotesByPrompt,
   fetchRandomNote,
   submitNote,
-  likeNote as apiLikeNote,
   flagNote as apiFlagNote,
 } from '../api/client';
 
@@ -22,11 +20,8 @@ export function NotesProvider({ children }) {
   const [currentPrompt, setCurrentPrompt] = useState(null);
   const [notes, setNotes] = useState([]);
   const [prompts, setPrompts] = useState([]);
-  const [likedNotes, setLikedNotes] = useState(new Set());
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  const sessionToken = getSessionToken();
 
   // Load initial data
   useEffect(() => {
@@ -62,19 +57,6 @@ export function NotesProvider({ children }) {
     return fetchRandomNote(promptId);
   }, []);
 
-  const likeNote = useCallback(async (noteId) => {
-    const result = await apiLikeNote(noteId, sessionToken);
-    if (result && !result.already_liked) {
-      setLikedNotes((prev) => new Set([...prev, noteId]));
-      setNotes((prev) =>
-        prev.map((n) => (n.id === noteId ? { ...n, likes: result.likes } : n))
-      );
-    }
-    return result;
-  }, [sessionToken]);
-
-  const hasLiked = useCallback((noteId) => likedNotes.has(noteId), [likedNotes]);
-
   const flagNote = useCallback(async (noteId) => {
     return apiFlagNote(noteId);
   }, []);
@@ -97,7 +79,7 @@ export function NotesProvider({ children }) {
     <NotesContext.Provider
       value={{
         currentPrompt, notes, prompts, loading, error,
-        addNote, getRandomNote, likeNote, hasLiked, flagNote,
+        addNote, getRandomNote, flagNote,
         getNoteCount, refreshNotes,
       }}
     >

@@ -123,29 +123,6 @@ export async function fetchNotesByPrompt(promptId, limit = 20, offset = 0) {
   return request(`/api/notes/prompt/${promptId}?limit=${limit}&offset=${offset}`);
 }
 
-/**
- * Send warmth (like) to a note.
- * @param {number} noteId
- * @param {string} sessionToken - Anonymous session identifier
- * @returns {Promise<{note_id, likes, already_liked}>}
- */
-export async function likeNote(noteId, sessionToken) {
-  return request(`/api/notes/${noteId}/like`, {
-    method: 'POST',
-    body: JSON.stringify({ session_token: sessionToken }),
-  });
-}
-
-/**
- * Check if a session has already liked a note.
- * @param {number} noteId
- * @param {string} sessionToken
- * @returns {Promise<{liked: boolean}>}
- */
-export async function checkLiked(noteId, sessionToken) {
-  return request(`/api/notes/${noteId}/liked?session_token=${sessionToken}`);
-}
-
 
 // ──────────────────────────────────────
 //  ADMIN
@@ -207,7 +184,7 @@ export async function flagNote(noteId) {
 
 /**
  * Get admin dashboard stats.
- * @returns {Promise<{total_notes, total_prompts, total_likes, flagged_count, hidden_count}>}
+ * @returns {Promise<{total_notes, total_prompts, flagged_count, hidden_count}>}
  */
 export async function fetchAdminStats() {
   return request('/api/admin/stats');

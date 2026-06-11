@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNotes } from '../stores/useNotes';
-import { cn } from '../lib/cn';
 
 export default function ReadPage({ go }) {
-  const { currentPrompt, getRandomNote, likeNote, hasLiked } = useNotes();
+  const { currentPrompt, getRandomNote } = useNotes();
   const [note, setNote] = useState(null);
   const [loading, setLoading] = useState(true);
   const [key, setKey] = useState(0);
@@ -19,14 +18,6 @@ export default function ReadPage({ go }) {
     setNote(n);
     setKey((k) => k + 1);
     setLoading(false);
-  };
-
-  const handleLike = async () => {
-    if (!note) return;
-    const result = await likeNote(note.id);
-    if (result && !result.already_liked) {
-      setNote((prev) => ({ ...prev, likes: result.likes }));
-    }
   };
 
   if (loading && !note) {
@@ -57,8 +48,6 @@ export default function ReadPage({ go }) {
     );
   }
 
-  const liked = hasLiked(note.id);
-
   return (
     <div className="flex flex-col items-center justify-center min-h-screen px-6 py-12 text-center">
       <div className="inline-block px-4 py-1.5 rounded-full bg-[#EAE2F8] border border-[#2E1A6E]/[0.08] font-mono text-[0.6875rem] tracking-widest uppercase text-[#2E1A6E]/35 mb-3">
@@ -82,21 +71,6 @@ export default function ReadPage({ go }) {
           <span className="font-mono text-[0.6875rem] text-[#2E1A6E]/35 tracking-wide uppercase">
             {note.time_ago || note.time}
           </span>
-          <motion.button
-            onClick={handleLike}
-            whileTap={{ scale: 0.92 }}
-            className={cn(
-              'flex items-center gap-1.5 px-4 py-1.5 border rounded-full text-[0.6875rem] font-mono transition-all cursor-pointer',
-              liked
-                ? 'border-[#ff9b7a]/25 bg-[#ff9b7a]/[0.06] text-[#ff9b7a]'
-                : 'border-[#2E1A6E]/[0.08] text-[#2E1A6E]/35 hover:border-[#2E1A6E]/20'
-            )}
-          >
-            <svg width="13" height="13" viewBox="0 0 24 24" fill={liked ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2">
-              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-            </svg>
-            {note.likes}
-          </motion.button>
         </div>
       </motion.div>
 

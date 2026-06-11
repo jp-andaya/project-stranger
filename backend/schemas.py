@@ -45,25 +45,10 @@ class NoteResponse(BaseModel):
     id: int
     content: str
     prompt_id: int
-    likes: int
     created_at: datetime
     time_ago: str = ""  # computed field like "2h ago"
 
     model_config = {"from_attributes": True}
-
-
-# ──────────────────────────────────────
-#  LIKES
-# ──────────────────────────────────────
-
-class LikeRequest(BaseModel):
-    session_token: str = Field(..., min_length=1, max_length=64)
-
-
-class LikeResponse(BaseModel):
-    note_id: int
-    likes: int
-    already_liked: bool = False
 
 
 # ──────────────────────────────────────

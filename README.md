@@ -37,7 +37,7 @@ src/
 - "Mon, 24 Mar" short format on archive cards
 
 ### 2. Admin Moderation Panel
-- Dashboard stats: total notes, prompts, warmth, flagged, hidden
+- Dashboard stats: total notes, prompts, flagged, hidden
 - Flagged notes tab: review notes reported by users
 - All notes tab: browse every note with hide/restore/delete controls
 - Confirmation dialog before permanent deletes

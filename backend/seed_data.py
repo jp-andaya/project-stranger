@@ -83,32 +83,26 @@ def seed():
         Note(
             content="I pretend to understand why people ghost each other. I smile and nod when friends explain their reasons, but deep down I still don't get how someone can just... disappear.",
             prompt_id=prompts[0].id,
-            likes=23,
         ),
         Note(
             content="Cryptocurrency. I nod along in conversations, I even own some, but I genuinely have no idea what I'm doing or why any of it has value.",
             prompt_id=prompts[0].id,
-            likes=47,
         ),
         Note(
             content="How to be okay with being alone. I tell everyone I love my independence but some nights the silence is so loud.",
             prompt_id=prompts[0].id,
-            likes=89,
         ),
         Note(
             content="Adult friendships. Why is it so hard to make real connections after 25? Everyone seems to know something I don't.",
             prompt_id=prompts[0].id,
-            likes=156,
         ),
         Note(
             content="Grief. People say it gets easier but I pretend to understand what that means. It's been three years and I still can't visit his favourite coffee shop.",
             prompt_id=prompts[0].id,
-            likes=201,
         ),
         Note(
             content="Taxes. I'm 28 years old and every year I just stare at the forms and hope for the best.",
             prompt_id=prompts[0].id,
-            likes=34,
         ),
     ]
 
@@ -117,17 +111,14 @@ def seed():
         Note(
             content="Dear younger me, stop trying so hard to fit in. The things that make you different will make you shine.",
             prompt_id=prompts[1].id,
-            likes=67,
         ),
         Note(
             content="I'd tell myself to call Grandma more. You think there's always tomorrow until there isn't.",
             prompt_id=prompts[1].id,
-            likes=142,
         ),
         Note(
             content="It's okay to say no. You don't owe anyone an explanation for choosing yourself.",
             prompt_id=prompts[1].id,
-            likes=98,
         ),
     ]
 
@@ -136,12 +127,10 @@ def seed():
         Note(
             content="The moment my dad said he was proud of me. Not for achieving anything, just for being me.",
             prompt_id=prompts[2].id,
-            likes=203,
         ),
         Note(
             content="When I got the rejection letter from my dream university. I cried for a week. But it led me to where I am now, and I wouldn't change it.",
             prompt_id=prompts[2].id,
-            likes=78,
         ),
     ]
 

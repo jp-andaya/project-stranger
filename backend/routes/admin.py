@@ -15,7 +15,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import func
 
 from database import get_db
-from models import Note, Prompt, Like
+from models import Note, Prompt
 from schemas import AdminNoteResponse, NoteModeration
 from routes.notes import note_to_response, time_ago
 
@@ -34,7 +34,6 @@ def admin_note_response(note: Note) -> AdminNoteResponse:
         id=note.id,
         content=note.content,
         prompt_id=note.prompt_id,
-        likes=note.likes,
         created_at=note.created_at,
         time_ago=time_ago(note.created_at),
         is_flagged=note.is_flagged,
@@ -107,13 +106,11 @@ def moderate_note(
 
 @router.delete("/notes/{note_id}", status_code=204)
 def delete_note(note_id: int, db: Session = Depends(get_db)):
-    """Permanently delete a note and its likes."""
+    """Permanently delete a note."""
     note = db.query(Note).filter(Note.id == note_id).first()
     if not note:
         raise HTTPException(status_code=404, detail="Note not found")
 
-    # Delete associated likes first
-    db.query(Like).filter(Like.note_id == note_id).delete()
     db.delete(note)
     db.commit()
 
@@ -144,7 +141,6 @@ def get_stats(db: Session = Depends(get_db)):
     """Get overview stats for the admin dashboard."""
     total_notes = db.query(func.count(Note.id)).scalar()
     total_prompts = db.query(func.count(Prompt.id)).scalar()
-    total_likes = db.query(func.coalesce(func.sum(Note.likes), 0)).scalar()
     flagged_count = (
         db.query(func.count(Note.id))
         .filter(Note.is_flagged == True, Note.is_hidden == False)
@@ -159,7 +155,6 @@ def get_stats(db: Session = Depends(get_db)):
     return {
         "total_notes": total_notes,
         "total_prompts": total_prompts,
-        "total_likes": total_likes,
         "flagged_count": flagged_count,
         "hidden_count": hidden_count,
     }

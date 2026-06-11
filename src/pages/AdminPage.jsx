@@ -62,11 +62,10 @@ export default function AdminPage({ go }) {
 
       {/* Stats */}
       {stats && (
-        <div className="grid grid-cols-5 gap-2.5 mb-7">
+        <div className="grid grid-cols-4 gap-2.5 mb-7">
           {[
             { l: 'Total Notes', v: stats.total_notes },
             { l: 'Prompts', v: stats.total_prompts },
-            { l: 'Warmth', v: stats.total_likes },
             { l: 'Flagged', v: stats.flagged_count, d: stats.flagged_count > 0 },
             { l: 'Hidden', v: stats.hidden_count },
           ].map((s) => (
@@ -116,7 +115,7 @@ export default function AdminPage({ go }) {
               <span className="font-mono text-[0.6875rem] text-[#2E1A6E]/35">#{n.id}</span>
               {n.is_flagged && <span className="px-2.5 py-0.5 rounded-full bg-[#ff6b5a]/[0.12] text-[#ff6b5a] font-mono text-[0.6875rem]">Flagged</span>}
               {n.is_hidden && <span className="px-2.5 py-0.5 rounded-full bg-[#2E1A6E]/[0.08] text-[#2E1A6E]/35 font-mono text-[0.6875rem]">Hidden</span>}
-              <span className="font-mono text-[0.6875rem] text-[#2E1A6E]/35">{n.time_ago} · {n.likes} warmth</span>
+              <span className="font-mono text-[0.6875rem] text-[#2E1A6E]/35">{n.time_ago}</span>
             </div>
             <p className="text-sm leading-relaxed text-[#2E1A6E]/60 mb-3.5">{n.content}</p>
             <div className="flex gap-2">

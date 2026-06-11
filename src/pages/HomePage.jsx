@@ -7,7 +7,7 @@ import WriteForm from '../components/WriteForm';
 import NoteCard from '../components/NoteCard';
 
 export default function HomePage({ go }) {
-  const { currentPrompt, notes, loading, error, addNote, likeNote, hasLiked, flagNote } = useNotes();
+  const { currentPrompt, notes, loading, error, addNote, flagNote } = useNotes();
   const [submitting, setSubmitting] = useState(false);
 
   if (loading) {
@@ -76,8 +76,6 @@ export default function HomePage({ go }) {
                 <NoteCard
                   key={note.id}
                   note={note}
-                  liked={hasLiked(note.id)}
-                  onLike={likeNote}
                   onFlag={flagNote}
                 />
               ))}
