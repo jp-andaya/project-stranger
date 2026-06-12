@@ -6,8 +6,9 @@ dist/
 
 # Environment
 .env
+backend/.env
 
-# Database (generated locally)
+# Legacy SQLite database (pre-PostgreSQL)
 backend/stranger.db
 
 # IDE

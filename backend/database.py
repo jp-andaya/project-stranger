@@ -1,16 +1,25 @@
 """
-Database configuration — SQLite via SQLAlchemy.
-Creates stranger.db in the backend folder.
+Database configuration — PostgreSQL via SQLAlchemy.
+Connection string comes from the DATABASE_URL environment variable,
+falling back to a local dev server (database: stranger).
 """
 
+import os
+
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-DATABASE_URL = "sqlite:///./stranger.db"
+load_dotenv()  # Reads backend/.env if present (see .env.example)
+
+DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    "postgresql+psycopg2://postgres:postgres@localhost:5432/stranger",
+)
 
 engine = create_engine(
     DATABASE_URL,
-    connect_args={"check_same_thread": False},  # Required for SQLite + FastAPI
+    pool_pre_ping=True,  # Recycle stale connections dropped by the server
     echo=False,
 )
 

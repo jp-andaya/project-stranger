@@ -1,7 +1,7 @@
 """
 Project Stranger — Backend API
 
-FastAPI server with SQLite database.
+FastAPI server with PostgreSQL database.
 Run with: uvicorn main:app --reload --port 8001
 API docs: http://localhost:8001/docs
 """

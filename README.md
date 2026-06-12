@@ -95,9 +95,7 @@ dist/
 
 # Environment
 .env
-
-# Database (generated locally)
-backend/stranger.db
+backend/.env
 
 # IDE
 .vscode/
