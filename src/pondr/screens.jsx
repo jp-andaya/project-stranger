@@ -873,13 +873,8 @@ export function ExploreScreen({ onOpenMenu }) {
   );
 }
 
-// ───────────── Donation (placeholder mockup) ─────────────
+// ───────────── Donation — Mental Health Charity ─────────────
 export function DonationScreen({ onOpenMenu }) {
-  const TIERS = [
-    { amt: "$3", lab: "Buy us a coffee" },
-    { amt: "$8", lab: "Keep the lights on" },
-    { amt: "$20", lab: "Fund a quieter web" },
-  ];
   return (
     <div className="screen screen-enter">
       <TopBar
@@ -891,24 +886,27 @@ export function DonationScreen({ onOpenMenu }) {
         } />
 
       <div className="placeholder-hero">
-        <div className="placeholder-icon"><Icon.Gift size={30} /></div>
-        <h2>Support Pondr</h2>
-        <p>Pondr is free and ad-free. If it's brought you a moment of calm, you can help keep it that way. Coming soon.</p>
-        <span className="placeholder-pill">In development</span>
+        <div className="placeholder-icon"><Icon.Heart size={30} /></div>
+        <h2>Support Mental Health</h2>
+        <p>If Pondr has brought you a moment of calm, consider supporting MIND. They provide mental health support and information to those struggling.</p>
       </div>
 
-      <div className="donate-tiers">
-        {TIERS.map((tr) =>
-          <div key={tr.amt} className="donate-tier">
-            <span className="donate-amt">{tr.amt}</span>
-            <span className="donate-lab">{tr.lab}</span>
-            <span className="donate-heart"><Icon.Heart size={16} /></span>
-          </div>
-        )}
+      <div style={{ padding: '24px 20px', textAlign: 'center' }}>
+        <p style={{ fontSize: '0.9375rem', lineHeight: '1.6', color: 'var(--p-text-secondary)', marginBottom: '24px' }}>
+          MIND is an independent charity that provides mental health support and campaigns for better mental health services in the UK.
+        </p>
+        <a
+          href="https://www.mind.org.uk/donate"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="primary-btn"
+          style={{ display: 'inline-block', textDecoration: 'none' }}>
+          <Icon.Heart size={15} /> Donate to MIND
+        </a>
+        <p style={{ fontSize: '0.8125rem', marginTop: '16px', color: 'var(--p-text-tertiary)' }}>
+          Every contribution helps provide support to those in need.
+        </p>
       </div>
-      <button className="primary-btn donate-cta" disabled>
-        <Icon.Heart size={15} /> Donations open soon
-      </button>
     </div>
   );
 }
