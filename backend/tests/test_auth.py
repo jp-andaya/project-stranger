@@ -60,6 +60,28 @@ def test_onboarding_sets_handle_and_collision_409(client):
     assert collision.status_code == 409
 
 
+def test_onboarding_rejects_abusive_handle(client):
+    """Handles are public identity with no review queue, unlike note/win text
+    — anything short of clean is rejected outright, not published-flagged."""
+    token, _ = signup(client)
+    response = client.post(
+        "/api/auth/onboarding",
+        json={"handle": "you're worthless"},
+        headers=auth_header(token),
+    )
+    assert response.status_code == 422
+
+
+def test_settings_rejects_abusive_handle(client):
+    token, _ = signup(client, handle="Brave Otter")
+    response = client.patch(
+        "/api/auth/me",
+        json={"handle": "nobody likes you"},
+        headers=auth_header(token),
+    )
+    assert response.status_code == 422
+
+
 def test_handle_check(client):
     signup(client, handle="Brave Otter")
     taken = client.get("/api/auth/handle-check", params={"handle": "BRAVE OTTER"})
