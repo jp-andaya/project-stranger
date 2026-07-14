@@ -1,8 +1,10 @@
-# Project Stranger — full stack in two containers.
+# Project Stranger — full stack in two containers, plus an optional dev-only
+# database viewer.
 #
 #   docker compose up --build      # build + run
 #   open http://localhost:3000     # the app
 #   open http://localhost:8001/docs# API docs (direct to backend)
+#   open http://localhost:8080     # live read-only DB browser (dev tool)
 #
 # Data persists in the named volume "backend-data" across restarts.
 
@@ -42,6 +44,25 @@ services:
     restart: unless-stopped
     ports:
       - "3000:80"
+    depends_on:
+      backend:
+        condition: service_started
+
+  # Dev-only convenience: a web-based SQLite browser pointed at the same
+  # volume the backend writes to, so you can leave a tab open and refresh it
+  # to see live data (submitted notes, wins, etc). Read-only mount, so it
+  # can never corrupt or write-lock the file the backend is using. Bound to
+  # 127.0.0.1 only: the DB has emails and password hashes in it, so this
+  # must never be reachable from the LAN, unlike the app's own ports.
+  # Not part of the app itself — safe to remove for a "production" story.
+  db-viewer:
+    image: coleifer/sqlite-web
+    restart: unless-stopped
+    command: ["sqlite_web", "-H", "0.0.0.0", "-x", "-r", "/data/stranger.db"]
+    volumes:
+      - backend-data:/data:ro
+    ports:
+      - "127.0.0.1:8080:8080"   # loopback-only: never reachable from the LAN
     depends_on:
       backend:
         condition: service_started
