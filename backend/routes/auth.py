@@ -19,6 +19,7 @@ from sqlalchemy.orm import Session
 from auth import create_access_token, get_current_user, hash_password, verify_password
 from database import get_db
 from models import Instant, User, Win
+from moderation import moderate_content, ModerationResult
 from schemas import (
     AuthResponse, LoginRequest, OnboardingRequest, SignupRequest,
     UserResponse, UserUpdate,
@@ -30,7 +31,17 @@ router = APIRouter(prefix="/api/auth", tags=["Auth"])
 
 
 def _normalise_handle(handle: str) -> str:
-    return " ".join(handle.strip().split())
+    handle = " ".join(handle.strip().split())
+    # Handles are public identity, not review-queued content — there's no
+    # place to send a "flagged" username, so anything short of clean is
+    # rejected outright rather than published-with-a-flag.
+    moderation = moderate_content(handle)
+    if moderation["result"] != ModerationResult.CLEAN:
+        raise HTTPException(
+            status_code=422,
+            detail="That name isn't allowed — please choose another.",
+        )
+    return moderation["sanitised_content"]
 
 
 def _handle_taken(db: Session, handle: str, exclude_user_id: int | None = None) -> bool:

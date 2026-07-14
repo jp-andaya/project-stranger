@@ -5,12 +5,11 @@ from conftest import auth_header, signup
 NOTE_BODY = "A story long enough to pass the minimum length validation check."
 
 
-def make_note(client, token, prompt_id, body=NOTE_BODY, category="Reflection"):
-    return client.post(
-        "/api/notes/",
-        json={"prompt_id": prompt_id, "content": body, "category": category},
-        headers=auth_header(token),
-    )
+def make_note(client, token, prompt_id, body=NOTE_BODY, category="Reflection", title=None):
+    payload = {"prompt_id": prompt_id, "content": body, "category": category}
+    if title is not None:
+        payload["title"] = title
+    return client.post("/api/notes/", json=payload, headers=auth_header(token))
 
 
 def test_create_note_derives_title(client, make_prompt):
@@ -48,6 +47,23 @@ def test_blocked_content_400(client, make_prompt):
         body="I think you should just kill yourself honestly and truly",
     )
     assert response.status_code == 400
+
+
+def test_blocked_title_400(client, make_prompt):
+    """Title is free text too — it must be moderated same as the body,
+    or it's an unfiltered side door around content moderation."""
+    prompt = make_prompt()
+    token, _ = signup(client)
+    response = make_note(client, token, prompt.id, title="go die already")
+    assert response.status_code == 400
+
+
+def test_title_html_is_sanitised(client, make_prompt):
+    prompt = make_prompt()
+    token, _ = signup(client)
+    response = make_note(client, token, prompt.id, title="<script>alert(1)</script>hi")
+    assert response.status_code == 201
+    assert "<script>" not in response.json()["title"]
 
 
 def test_unlock_economy_tiers(client, make_prompt):

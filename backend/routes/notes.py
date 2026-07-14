@@ -121,14 +121,30 @@ def create_note(
         )
 
     content = moderation["sanitised_content"]
+
+    # The title is free text too — moderate it same as the body, or it's an
+    # unfiltered side door into a note that otherwise passed moderation.
+    raw_title = (payload.title or "").strip()
+    title_moderation = moderate_content(raw_title) if raw_title else None
+    if title_moderation and title_moderation["result"] == ModerationResult.BLOCKED:
+        raise HTTPException(
+            status_code=400,
+            detail="Your title could not be shared. Please ensure it "
+                   "is respectful and does not contain harmful language.",
+        )
+    title = title_moderation["sanitised_content"] if title_moderation else derive_title(content)
+    is_flagged = moderation["result"] == ModerationResult.FLAGGED or (
+        title_moderation is not None and title_moderation["result"] == ModerationResult.FLAGGED
+    )
+
     note = Note(
-        title=(payload.title or "").strip() or derive_title(content),
+        title=title,
         content=content,
         category=payload.category,
         prompt_id=payload.prompt_id,
         author_id=user.id,
         is_anonymous=payload.is_anonymous,
-        is_flagged=moderation["result"] == ModerationResult.FLAGGED,
+        is_flagged=is_flagged,
     )
     db.add(note)
     db.commit()
