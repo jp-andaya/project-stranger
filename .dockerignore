@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.git/
+.env
+.env.*
+npm-debug.log*
+# Backend has its own image/build context; keep it out of the frontend build.
+backend/
+*.md
+.vscode/
+.idea/
