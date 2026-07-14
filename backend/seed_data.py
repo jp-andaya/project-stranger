@@ -135,7 +135,6 @@ def seed(reset: bool = False):
         for offset, sample in enumerate(SAMPLE_WINS):
             win = Win(
                 user_id=demo.id,
-                icon=sample["icon"],
                 text=sample["text"][:140],
                 win_date=today - timedelta(days=offset),
                 is_private=bool(sample.get("private")),

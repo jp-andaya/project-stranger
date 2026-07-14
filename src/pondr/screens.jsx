@@ -451,7 +451,7 @@ export function ComposeScreen({ prompt, onBack, onSubmit, unlockAt = 0 }) {
               <button
                 className="primary-btn"
                 disabled={text.trim().length < 4}
-                onClick={() => onSubmit({ cat, title: title.trim(), text: text.trim(), anon: true })}>
+                onClick={() => onSubmit({ cat, title: title.trim(), text: text.trim() })}>
                 <Icon.Pencil size={16} /> Drop into the bowl
               </button>
               <button className="ghost-btn" onClick={onBack}>
@@ -826,7 +826,6 @@ export function WinsScreen({ wins, streak, logSet: logSetProp, onAdd, todayWin, 
 export function AddWinScreen({ onBack, onSubmit }) {
   const [step, setStep] = useState("camera"); // camera | caption
   const [shot, setShot] = useState(null);     // { photo, retakes }
-  const icon = "Sun"; // no picker built — every win uses the same icon for now
   const [text, setText] = useState("");
   const max = 140;
 
@@ -887,7 +886,7 @@ export function AddWinScreen({ onBack, onSubmit }) {
           <button
             className="primary-btn"
             disabled={text.trim().length < 3}
-            onClick={() => onSubmit({ icon, text: text.trim(), photo: shot && shot.photo, retakes: shot ? shot.retakes : 0 })}>
+            onClick={() => onSubmit({ text: text.trim(), photo: shot && shot.photo, retakes: shot ? shot.retakes : 0 })}>
             <Icon.PlusBare size={14} /> Submit your win
           </button>
           <button className="ghost-btn" onClick={onBack}>Cancel</button>

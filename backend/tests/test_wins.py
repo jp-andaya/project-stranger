@@ -8,7 +8,7 @@ from conftest import TINY_JPEG_DATAURL, auth_header, signup
 def make_win(client, token, text="Had a great cup of coffee.", **extra):
     return client.post(
         "/api/wins/",
-        json={"icon": "Sun", "text": text, **extra},
+        json={"text": text, **extra},
         headers=auth_header(token),
     )
 
@@ -40,7 +40,7 @@ def test_streak_math(client, db_session):
 
     # 3 consecutive days ending yesterday -> streak of 3 (not broken until today ends).
     for offset in (1, 2, 3):
-        db_session.add(Win(user_id=user.id, icon="Sun", text="w", win_date=today - timedelta(days=offset)))
+        db_session.add(Win(user_id=user.id, text="w", win_date=today - timedelta(days=offset)))
     db_session.commit()
     summary = client.get("/api/wins/summary", headers=auth_header(token)).json()
     assert summary["streak"] == 3
@@ -54,7 +54,7 @@ def test_streak_math(client, db_session):
 
     # A gap resets: only dates 6+ days ago -> streak 0.
     db_session.query(Win).delete()
-    db_session.add(Win(user_id=user.id, icon="Sun", text="w", win_date=today - timedelta(days=6)))
+    db_session.add(Win(user_id=user.id, text="w", win_date=today - timedelta(days=6)))
     db_session.commit()
     summary = client.get("/api/wins/summary", headers=auth_header(token)).json()
     assert summary["streak"] == 0

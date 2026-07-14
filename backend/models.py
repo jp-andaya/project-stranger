@@ -103,9 +103,6 @@ class Note(Base):
     author_id = Column(
         Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True
     )
-    # Notes are anonymous in the feed regardless; the flag mirrors the compose
-    # toggle copy ("your ID tag is stored privately").
-    is_anonymous = Column(Boolean, default=True, nullable=False)
     likes = Column(Integer, default=0, nullable=False)  # denormalized counter
     is_flagged = Column(Boolean, default=False)   # for moderation
     is_hidden = Column(Boolean, default=False)    # hidden by admin
@@ -141,7 +138,6 @@ class Win(Base):
     user_id = Column(
         Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True
     )
-    icon = Column(String(16), nullable=False)
     text = Column(String(140), nullable=False)
     win_date = Column(Date, nullable=False)  # server date at creation; streaks use distinct dates
     photo_path = Column(String(255), nullable=True)  # relative path under UPLOAD_DIR
