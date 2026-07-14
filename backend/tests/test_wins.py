@@ -99,6 +99,28 @@ def test_win_with_photo_creates_instant(client):
     assert data["photo"].startswith("data:image/")
 
 
+def test_deleting_photo_win_removes_its_instant(client):
+    token, _ = signup(client, handle="Brave Otter")
+    win = make_win(client, token, photo=TINY_JPEG_DATAURL, retakes=1).json()
+
+    # The win-with-photo created today's instant.
+    assert client.get("/api/instants/mine/today", headers=auth_header(token)).status_code == 200
+
+    # Deleting the win should take its instant with it, not leave it orphaned.
+    assert client.delete(f"/api/wins/{win['id']}", headers=auth_header(token)).status_code == 204
+    assert client.get("/api/instants/mine/today", headers=auth_header(token)).status_code == 404
+
+
+def test_deleting_photoless_win_leaves_instant_alone(client):
+    token, _ = signup(client, handle="Brave Otter")
+    photo_win = make_win(client, token, photo=TINY_JPEG_DATAURL, retakes=0).json()
+    text_win = make_win(client, token, text="A second, photo-less win today.").json()
+
+    # Deleting the photo-less win must not touch the instant the other win made.
+    assert client.delete(f"/api/wins/{text_win['id']}", headers=auth_header(token)).status_code == 204
+    assert client.get("/api/instants/mine/today", headers=auth_header(token)).status_code == 200
+
+
 def test_win_photo_served_with_privacy(client):
     owner, _ = signup(client, email="owner@example.com")
     win = make_win(client, owner, photo=TINY_JPEG_DATAURL, is_private=True).json()
