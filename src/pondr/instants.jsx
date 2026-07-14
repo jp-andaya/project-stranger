@@ -69,6 +69,9 @@ function useCameraStream() {
   const aliveRef = useRef(true);
   const [sim, setSim] = useState(false);
   const [simReason, setSimReason] = useState("");
+  // True while getUserMedia is unresolved — e.g. the permission prompt is
+  // open. Rendered as a hint so the viewfinder is never a silent black box.
+  const [starting, setStarting] = useState(true);
 
   const stopStream = useCallback(() => {
     if (streamRef.current) {
@@ -83,8 +86,10 @@ function useCameraStream() {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
       setSimReason("The camera needs a secure address. Open Pondr via localhost or https.");
       setSim(true);
+      setStarting(false);
       return;
     }
+    setStarting(true);
     try {
       const s = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: "user", width: { ideal: 720 } },
@@ -94,12 +99,14 @@ function useCameraStream() {
       streamRef.current = s;
       setSim(false);
       setSimReason("");
+      setStarting(false);
       if (videoRef.current) videoRef.current.srcObject = s;
     } catch (e) {
       console.warn("Camera unavailable (" + (e && e.name) + "):", e);
       if (aliveRef.current) {
         setSimReason(describeCameraError(e));
         setSim(true);
+        setStarting(false);
       }
     }
   }, [stopStream]);
@@ -113,7 +120,7 @@ function useCameraStream() {
     };
   }, [start, stopStream]);
 
-  return { videoRef, sim, simReason, retryCamera: start, stopStream };
+  return { videoRef, sim, simReason, starting, retryCamera: start, stopStream };
 }
 
 // The simulated-viewfinder overlay: names the reason and offers a way back.
@@ -284,7 +291,7 @@ export function InstantViewer({ instant, mode = "close", seconds = 8, overlay = 
 // ───────────── Reusable camera stage (viewfinder → shot → accept) ─────────────
 // Used camera-first in the Add-a-win flow; posting/attachment logic stays with the caller.
 export function CameraCapture({ onDone, acceptLabel = "Use photo", full = false }) {
-  const { videoRef, sim, simReason, retryCamera, stopStream } = useCameraStream();
+  const { videoRef, sim, simReason, starting, retryCamera, stopStream } = useCameraStream();
   const [shot, setShot] = useState(null);
   const [retakes, setRetakes] = useState(0);
 
@@ -317,6 +324,9 @@ export function CameraCapture({ onDone, acceptLabel = "Use photo", full = false 
       <div className={"cap-stage" + (full ? " full" : "")}>
         <div className="cap-frame">
           <video ref={videoRef} autoPlay playsInline muted className={shot || sim ? "hide" : ""}></video>
+          {starting && !sim && !shot && (
+            <div className="cap-starting"><span className="instant-ph-tag">starting camera — check for a permission prompt</span></div>
+          )}
           {sim && !shot && <SimOverlay reason={simReason} onRetry={retryCamera} />}
           {shot && <img className="cap-shot" src={shot} alt="Captured photo" />}
           {shot && (
@@ -346,7 +356,7 @@ export function CameraCapture({ onDone, acceptLabel = "Use photo", full = false 
 
 // ───────────── Capture screen (owner) ─────────────
 export function CaptureInstantScreen({ winToday, frame = "clean", onBack, onPost }) {
-  const { videoRef, sim, simReason, retryCamera, stopStream } = useCameraStream();
+  const { videoRef, sim, simReason, starting, retryCamera, stopStream } = useCameraStream();
   const [shot, setShot] = useState(null);
   const [retakes, setRetakes] = useState(0);
   const [sending, setSending] = useState(false);
@@ -394,6 +404,9 @@ export function CaptureInstantScreen({ winToday, frame = "clean", onBack, onPost
       <div className={"cap-stage" + (frame === "polaroid" ? " polaroid" : "")}>
         <div className="cap-frame">
           <video ref={videoRef} autoPlay playsInline muted className={shot || sim ? "hide" : ""}></video>
+          {starting && !sim && !shot && (
+            <div className="cap-starting"><span className="instant-ph-tag">starting camera — check for a permission prompt</span></div>
+          )}
           {sim && !shot && <SimOverlay reason={simReason} onRetry={retryCamera} />}
           {shot && <img className="cap-shot" src={shot} alt="Your instant" />}
           {shot && (
