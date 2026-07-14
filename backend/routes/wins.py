@@ -7,7 +7,7 @@ GET    /api/wins/mine            Current user's wins (newest first)
 GET    /api/wins/summary         Streak + week strip + calendar dates
 POST   /api/wins                 Log a win (photo also captures today's instant)
 PATCH  /api/wins/{id}            Edit text/privacy (owner)
-DELETE /api/wins/{id}            Delete a win (owner)
+DELETE /api/wins/{id}            Delete a win (owner; also removes the day's Instant if this win captured one)
 POST   /api/wins/{id}/like       Like a win
 DELETE /api/wins/{id}/like       Unlike a win
 POST   /api/wins/{id}/comments   Comment on a win
@@ -205,6 +205,20 @@ def delete_win(
 ):
     win = get_own_win(win_id, user, db)
     delete_photo(win.photo_path)
+    if win.photo_path:
+        # This win's photo also became (or replaced) that day's Instant —
+        # see _capture_instant. Instant has no win_id (it's a denormalized
+        # snapshot, not a child row), so the link is inferred by user+date,
+        # same as capture does. Only removed here, not on edit, since
+        # WinUpdate can't change a win's photo after the fact.
+        instant = (
+            db.query(Instant)
+            .filter(Instant.user_id == user.id, Instant.instant_date == win.win_date)
+            .first()
+        )
+        if instant:
+            delete_photo(instant.photo_path)
+            db.delete(instant)
     db.delete(win)
     db.commit()
 
