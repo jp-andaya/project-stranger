@@ -679,7 +679,8 @@
   backdrop-filter: blur(6px);
 }
 .cap-controls.overlay .cap-retry:hover { background: rgba(20, 16, 12, 0.6); }
-.cap-stage.full .cap-sim { padding-bottom: 46px; }
+/* Clear the overlaid shutter button in the full-bleed camera layout */
+.cap-stage.full .cap-sim { padding-bottom: 132px; }
 
 /* Dark header for the full-bleed camera */
 .capture-screen.cam-full { background: #16121f; }
@@ -723,6 +724,11 @@
   display: flex; flex-direction: column; align-items: center; gap: 10px;
   max-width: 86%;
   text-align: center;
+}
+.cap-starting {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  padding: 14px;
 }
 .cap-sim-reason {
   color: #d9d0ef;
