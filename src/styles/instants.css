@@ -900,48 +900,6 @@
   color: rgba(241, 236, 255, 0.6);
 }
 
-/* ── Viewer: quick comment bar ── */
-.iv-comment {
-  flex-shrink: 0;
-  display: flex; align-items: center; gap: 8px;
-  margin-top: 12px;
-  padding: 6px 6px 6px 16px;
-  border-radius: 999px;
-  background: rgba(241, 236, 255, 0.08);
-  border: 1px solid rgba(241, 236, 255, 0.12);
-}
-.iv-comment input {
-  flex: 1;
-  min-width: 0;
-  background: none; border: 0; outline: none;
-  font-family: var(--p-font-sans);
-  font-size: 13.5px;
-  color: #f1ecff;
-  padding: 8px 0;
-}
-.iv-comment input::placeholder { color: rgba(241, 236, 255, 0.45); }
-.iv-send {
-  width: 36px; height: 36px;
-  flex-shrink: 0;
-  border-radius: 999px;
-  border: 0; cursor: pointer;
-  background: var(--p-accent);
-  color: var(--p-accent-on);
-  display: flex; align-items: center; justify-content: center;
-  transition: transform 160ms, opacity 160ms;
-}
-.iv-send:active { transform: scale(0.9); }
-.iv-send:disabled { opacity: 0.35; cursor: default; }
-.iv-sent {
-  flex: 1;
-  display: flex; align-items: center; justify-content: center; gap: 7px;
-  padding: 8px 0;
-  font-family: var(--p-font-serif);
-  font-style: italic;
-  font-size: 14.5px;
-  color: #f1ecff;
-}
-
 /* ── Viewer: report sheet ── */
 .iv-report {
   position: absolute; inset: 0; z-index: 5;
