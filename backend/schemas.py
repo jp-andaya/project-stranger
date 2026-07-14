@@ -104,7 +104,6 @@ class NoteCreate(BaseModel):
     title: Optional[str] = Field(default=None, max_length=80)
     content: str = Field(..., min_length=20, max_length=280)
     category: NoteCategory
-    is_anonymous: bool = True
 
 
 class NoteResponse(BaseModel):
@@ -114,7 +113,6 @@ class NoteResponse(BaseModel):
     category: str
     prompt_id: int
     author_number: int   # used client-side for "is it mine" only — never rendered
-    is_anonymous: bool
     likes: int
     liked: bool = False
     when: str = ""       # human label like "2h ago"
@@ -150,7 +148,6 @@ class WinCommentResponse(BaseModel):
 
 
 class WinCreate(BaseModel):
-    icon: str = Field(..., min_length=1, max_length=16)
     text: str = Field(..., min_length=1, max_length=140)
     photo: Optional[str] = None          # base64 dataURL; also creates today's instant
     is_private: bool = False
@@ -164,7 +161,6 @@ class WinUpdate(BaseModel):
 
 class WinResponse(BaseModel):
     id: int
-    icon: str
     text: str
     date: str            # display label like "May 21"
     win_date: date

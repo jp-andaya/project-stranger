@@ -56,7 +56,6 @@ def admin_note_response(note: Note) -> AdminNoteResponse:
         category=note.category,
         prompt_id=note.prompt_id,
         author_number=note.author.number,
-        is_anonymous=note.is_anonymous,
         likes=note.likes,
         when=time_ago(note.created_at),
         created_at=note.created_at,

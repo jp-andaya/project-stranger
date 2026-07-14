@@ -44,7 +44,6 @@ def win_to_response(win: Win, db: Session, viewer: User) -> WinResponse:
     )
     return WinResponse(
         id=win.id,
-        icon=win.icon,
         text=win.text,
         date=date_label(win.win_date),
         win_date=win.win_date,
@@ -163,7 +162,6 @@ def create_win(
     text = moderation["sanitised_content"]
     win = Win(
         user_id=user.id,
-        icon=payload.icon,
         text=text,
         win_date=date.today(),
         is_private=payload.is_private,

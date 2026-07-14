@@ -50,7 +50,6 @@ const mapNote = (n) => ({
   cat: n.category,
   prompt_id: n.prompt_id,
   author: n.author_number,
-  anon: n.is_anonymous,
   likes: n.likes,
   liked: n.liked,
   when: n.when,
@@ -58,7 +57,6 @@ const mapNote = (n) => ({
 
 const mapWin = (w) => ({
   id: w.id,
-  icon: w.icon,
   text: w.text,
   date: w.date,
   win_date: w.win_date,
@@ -314,7 +312,7 @@ export default function App() {
       });
   };
 
-  const submitNote = async ({ cat, text, anon, title }) => {
+  const submitNote = async ({ cat, text, title }) => {
     if (!activePrompt || composeUnlockAt > Date.now()) return;
     setDropping(true);
     try {
@@ -323,7 +321,6 @@ export default function App() {
         title: title || undefined,
         content: text,
         category: cat,
-        anonymous: !!anon,
       });
       setUnlockAts((m) => ({ ...m, [activePrompt.id]: Date.now() + DAY_MS }));
       refreshFeed(activePrompt.id);
@@ -352,9 +349,9 @@ export default function App() {
   };
 
   // ── Wins ──
-  const submitWin = async ({ icon, text, photo, retakes }) => {
+  const submitWin = async ({ text, photo, retakes }) => {
     try {
-      const win = await api.createWin({ icon, text, photo, retakes: retakes || 0 });
+      const win = await api.createWin({ text, photo, retakes: retakes || 0 });
       setWins((prev) => [mapWin(win), ...prev]);
       api.getWinsSummary().then(setSummary).catch(() => {});
       refreshMe();

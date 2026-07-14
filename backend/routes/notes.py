@@ -54,7 +54,6 @@ def note_to_response(note: Note, db: Session, viewer: User) -> NoteResponse:
         category=note.category,
         prompt_id=note.prompt_id,
         author_number=note.author.number,
-        is_anonymous=note.is_anonymous,
         likes=note.likes,
         liked=liked,
         when=time_ago(note.created_at),
@@ -143,7 +142,6 @@ def create_note(
         category=payload.category,
         prompt_id=payload.prompt_id,
         author_id=user.id,
-        is_anonymous=payload.is_anonymous,
         is_flagged=is_flagged,
     )
     db.add(note)

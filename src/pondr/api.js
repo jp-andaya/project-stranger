@@ -60,8 +60,8 @@ export const suggestPrompt = (text) => apiFetch("/prompts/suggestions", { method
 export const getMySuggestions = () => apiFetch("/prompts/suggestions/mine");
 
 // ── Notes ──
-export const createNote = ({ promptId, title, content, category, anonymous = true }) =>
-  apiFetch("/notes/", { method: "POST", body: { prompt_id: promptId, title, content, category, is_anonymous: anonymous } });
+export const createNote = ({ promptId, title, content, category }) =>
+  apiFetch("/notes/", { method: "POST", body: { prompt_id: promptId, title, content, category } });
 export const getNotesFeed = (promptId, category) =>
   apiFetch("/notes/prompt/" + promptId + (category ? "?category=" + encodeURIComponent(category) : ""));
 export const getMyNotes = () => apiFetch("/notes/mine");
@@ -72,8 +72,8 @@ export const unlikeNote = (id) => apiFetch("/notes/" + id + "/like", { method: "
 // ── Wins ──
 export const getMyWins = () => apiFetch("/wins/mine");
 export const getWinsSummary = () => apiFetch("/wins/summary");
-export const createWin = ({ icon, text, photo, isPrivate = false, retakes = 0 }) =>
-  apiFetch("/wins/", { method: "POST", body: { icon, text, photo, is_private: isPrivate, retakes } });
+export const createWin = ({ text, photo, isPrivate = false, retakes = 0 }) =>
+  apiFetch("/wins/", { method: "POST", body: { text, photo, is_private: isPrivate, retakes } });
 export const updateWin = (id, patch) => apiFetch("/wins/" + id, { method: "PATCH", body: patch });
 export const deleteWin = (id) => apiFetch("/wins/" + id, { method: "DELETE" });
 export const likeWin = (id) => apiFetch("/wins/" + id + "/like", { method: "POST" });
