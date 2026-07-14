@@ -137,13 +137,3 @@ def moderate_content(text: str) -> dict:
         "reason": None,
         "sanitised_content": sanitised,
     }
-
-
-def get_moderation_stats() -> dict:
-    """Return moderation configuration info for admin dashboard."""
-    return {
-        "blocked_terms_count": len(BLOCKED_TERMS),
-        "flagged_terms_count": len(FLAGGED_TERMS),
-        "blocked_patterns_count": len(BLOCKED_PATTERNS),
-        "flagged_patterns_count": len(FLAGGED_PATTERNS),
-    }

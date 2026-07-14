@@ -1,12 +1,14 @@
 """
-Prompts API routes — daily prompt rotation system.
+Prompts API routes — daily prompt rotation + user suggestions.
 
 Endpoints
 ---------
-GET    /api/prompts/today      Get today's prompt
-GET    /api/prompts/archive    Get past prompts with note counts
-GET    /api/prompts/{id}       Get a specific prompt
-POST   /api/prompts            Create a new prompt (admin)
+GET    /api/prompts/today             Get today's prompt
+GET    /api/prompts/archive           Past prompts with note counts (carousel/archive)
+GET    /api/prompts/suggestions/mine  Current user's suggestions + status
+POST   /api/prompts/suggestions      Suggest a prompt (admin-reviewed)
+GET    /api/prompts/{id}              Get a specific prompt
+POST   /api/prompts                   Create a new prompt (admin only)
 """
 
 from datetime import date
@@ -14,9 +16,13 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 
+from auth import get_current_admin, get_current_user
 from database import get_db
-from models import Prompt, Note
-from schemas import PromptCreate, PromptResponse
+from models import Note, Prompt, PromptSuggestion, User
+from moderation import moderate_content, ModerationResult
+from schemas import (
+    PromptCreate, PromptResponse, SuggestionCreate, SuggestionResponse,
+)
 
 router = APIRouter(prefix="/api/prompts", tags=["Prompts"])
 
@@ -35,7 +41,6 @@ def prompt_to_response(prompt: Prompt, db: Session) -> PromptResponse:
     return PromptResponse(
         id=prompt.id,
         text=prompt.text,
-        category=prompt.category,
         scheduled_date=prompt.scheduled_date,
         note_count=count,
     )
@@ -57,14 +62,12 @@ def get_today_prompt(db: Session = Depends(get_db)):
     """
     today = date.today()
 
-    # Try exact match for today
     prompt = (
         db.query(Prompt)
         .filter(Prompt.scheduled_date == today, Prompt.is_active == True)
         .first()
     )
 
-    # Fallback: most recent past prompt
     if not prompt:
         prompt = (
             db.query(Prompt)
@@ -73,7 +76,6 @@ def get_today_prompt(db: Session = Depends(get_db)):
             .first()
         )
 
-    # Fallback: any active prompt
     if not prompt:
         prompt = (
             db.query(Prompt)
@@ -98,16 +100,57 @@ def get_archive(
     offset: int = Query(default=0, ge=0),
     db: Session = Depends(get_db),
 ):
-    """Get past prompts with note counts, newest first."""
+    """Past prompts with note counts, newest first. limit=7 feeds the carousel."""
     prompts = (
         db.query(Prompt)
-        .filter(Prompt.is_active == True)
+        .filter(Prompt.is_active == True, Prompt.scheduled_date <= date.today())
         .order_by(Prompt.scheduled_date.desc())
         .offset(offset)
         .limit(limit)
         .all()
     )
     return [prompt_to_response(p, db) for p in prompts]
+
+
+# ──────────────────────────────────────
+#  SUGGESTIONS
+# ──────────────────────────────────────
+
+@router.post("/suggestions", response_model=SuggestionResponse, status_code=201)
+def suggest_prompt(
+    payload: SuggestionCreate,
+    user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Suggest a prompt for the admins to review."""
+    moderation = moderate_content(payload.text)
+    if moderation["result"] == ModerationResult.BLOCKED:
+        raise HTTPException(
+            status_code=400,
+            detail="Your suggestion could not be submitted. Please keep it respectful.",
+        )
+
+    suggestion = PromptSuggestion(
+        user_id=user.id,
+        text=moderation["sanitised_content"],
+    )
+    db.add(suggestion)
+    db.commit()
+    db.refresh(suggestion)
+    return suggestion
+
+
+@router.get("/suggestions/mine", response_model=list[SuggestionResponse])
+def my_suggestions(
+    user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    return (
+        db.query(PromptSuggestion)
+        .filter(PromptSuggestion.user_id == user.id)
+        .order_by(PromptSuggestion.created_at.desc())
+        .all()
+    )
 
 
 # ──────────────────────────────────────
@@ -128,9 +171,12 @@ def get_prompt(prompt_id: int, db: Session = Depends(get_db)):
 # ──────────────────────────────────────
 
 @router.post("/", response_model=PromptResponse, status_code=201)
-def create_prompt(payload: PromptCreate, db: Session = Depends(get_db)):
-    """Create a new daily prompt (admin use)."""
-    # Check for duplicate date
+def create_prompt(
+    payload: PromptCreate,
+    admin: User = Depends(get_current_admin),
+    db: Session = Depends(get_db),
+):
+    """Create a new daily prompt (admin only)."""
     existing = (
         db.query(Prompt)
         .filter(Prompt.scheduled_date == payload.scheduled_date)
@@ -144,7 +190,6 @@ def create_prompt(payload: PromptCreate, db: Session = Depends(get_db)):
 
     prompt = Prompt(
         text=payload.text,
-        category=payload.category,
         scheduled_date=payload.scheduled_date,
     )
     db.add(prompt)

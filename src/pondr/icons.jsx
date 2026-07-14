@@ -96,8 +96,8 @@ export const Icon = {
       <path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4 7 17M17 7l1.4-1.4" />
     </svg>
   ),
-  Heart: ({ size = 20 }) => (
-    <svg viewBox="0 0 24 24" width={size} height={size} fill="currentColor">
+  Heart: ({ size = 20, filled = true }) => (
+    <svg viewBox="0 0 24 24" width={size} height={size} fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
       <path d="M12 21s-7-4.5-9.3-9C1.2 9 3 5 6.5 5c2 0 3.4 1.2 4.5 2.7C12.1 6.2 13.5 5 15.5 5 19 5 20.8 9 19.3 12 17 16.5 12 21 12 21z" />
     </svg>
   ),
@@ -155,6 +155,24 @@ export const Icon = {
       <path d="M9.5 9.6a3 3 0 0 0 4.2 4.2" />
     </svg>
   ),
+  Eye: ({ size = 18 }) => (
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  ),
+  Camera: ({ size = 18 }) => (
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 8h3l1.6-2.2a1 1 0 0 1 .8-.4h5.2a1 1 0 0 1 .8.4L17 8h3a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z" />
+      <circle cx="12" cy="13" r="3.2" />
+    </svg>
+  ),
+  Shield: ({ size = 16 }) => (
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 3l7 3v5c0 4.4-3 8.2-7 9.5C8 19.2 5 15.4 5 11V6l7-3z" />
+      <path d="M9.2 12l2 2 3.6-3.8" />
+    </svg>
+  ),
   Dots: ({ size = 20 }) => (
     <svg viewBox="0 0 24 24" width={size} height={size} fill="currentColor">
       <circle cx="12" cy="6" r="1.6" />
@@ -193,6 +211,51 @@ export const Icon = {
   Check: ({ size = 14 }) => (
     <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
       <path d="M5 12l5 5L20 7" />
+    </svg>
+  ),
+  ChevronDown: ({ size = 14 }) => (
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M6 9l6 6 6-6" />
+    </svg>
+  ),
+  Chat: ({ size = 18 }) => (
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 12a8 8 0 0 1-8 8H4l2-3a8 8 0 1 1 15-5z" />
+    </svg>
+  ),
+  Send: ({ size = 16 }) => (
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 3L10 14M21 3l-7 18-4-7-7-4z" />
+    </svg>
+  ),
+  Trash: ({ size = 16 }) => (
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3" />
+    </svg>
+  ),
+  // Instants icons (match the hand-rolled 1.6–1.8px stroke grammar)
+  Retry: ({ size = 16 }) => (
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M20 12a8 8 0 1 1-2.7-6" />
+      <path d="M20 3v5h-5" />
+    </svg>
+  ),
+  Clock: ({ size = 16 }) => (
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M12 7.5V12l3 2" />
+    </svg>
+  ),
+  Flag: ({ size = 16 }) => (
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M5 21V4" />
+      <path d="M5 4h13l-2.5 4 2.5 4H5" />
+    </svg>
+  ),
+  Gear: ({ size = 18 }) => (
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="3.2" />
+      <path d="M19.2 12c0-.4 0-.8-.1-1.2l2-1.5-2-3.4-2.3 1a7.2 7.2 0 0 0-2-1.2L14.4 3H9.6l-.4 2.7a7.2 7.2 0 0 0-2 1.2l-2.3-1-2 3.4 2 1.5a7.2 7.2 0 0 0 0 2.4l-2 1.5 2 3.4 2.3-1a7.2 7.2 0 0 0 2 1.2l.4 2.7h4.8l.4-2.7a7.2 7.2 0 0 0 2-1.2l2.3 1 2-3.4-2-1.5c.1-.4.1-.8.1-1.2z" />
     </svg>
   ),
 };

@@ -1,5 +1,5 @@
 """
-Project Stranger — Backend API
+Pondr — Backend API
 
 FastAPI server with SQLite database.
 Run with: uvicorn main:app --reload --port 8001
@@ -10,9 +10,10 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from database import engine, Base
-from routes import notes, prompts, admin
+from routes import admin, auth, donations, instants, media, notes, prompts, reports, wins
 
-# Create database tables on startup
+# Create database tables on startup (first-boot convenience; use
+# seed_data.py --reset for schema changes).
 Base.metadata.create_all(bind=engine)
 
 # ──────────────────────────────────────
@@ -20,9 +21,9 @@ Base.metadata.create_all(bind=engine)
 # ──────────────────────────────────────
 
 app = FastAPI(
-    title="Project Stranger API",
-    description="Anonymous storytelling mental health app — backend API",
-    version="1.0.0",
+    title="Pondr API",
+    description="A beautiful journal that writes back — backend API",
+    version="2.0.0",
 )
 
 # CORS — allow the React frontend to talk to us
@@ -44,8 +45,14 @@ app.add_middleware(
 #  ROUTES
 # ──────────────────────────────────────
 
-app.include_router(notes.router)
+app.include_router(auth.router)
 app.include_router(prompts.router)
+app.include_router(notes.router)
+app.include_router(wins.router)
+app.include_router(instants.router)
+app.include_router(media.router)
+app.include_router(reports.router)
+app.include_router(donations.router)
 app.include_router(admin.router)
 
 
@@ -56,7 +63,7 @@ app.include_router(admin.router)
 @app.get("/", tags=["Health"])
 def root():
     return {
-        "app": "Project Stranger",
+        "app": "Pondr",
         "status": "running",
         "docs": "/docs",
     }

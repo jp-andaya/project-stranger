@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.venv/
+venv/
+.env
+# Don't bake a local dev database into the image; the volume provides persistence.
+stranger.db
+*.sqlite
+*.sqlite3
