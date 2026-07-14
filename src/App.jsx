@@ -198,7 +198,10 @@ export default function App() {
 
   useEffect(() => {
     if (!onboarded) return;
-    api.getPromptCarousel().then((prompts) => setPromptItems(mapPromptItems(prompts))).catch(() => {});
+    // Fetch the full archive (not just the carousel's last-7-days window) —
+    // weekItems below still slices to 7 for the carousel, but PromptArchive
+    // needs the rest or "Past prompts" just duplicates the carousel.
+    api.getPromptArchive(50).then((prompts) => setPromptItems(mapPromptItems(prompts))).catch(() => {});
     api.getMyNotes().then((notes) => {
       const map = {};
       notes.forEach((n) => { map[n.prompt_id] = Math.max(map[n.prompt_id] || 0, parseUTC(n.unlock_at)); });
