@@ -826,7 +826,7 @@ export function WinsScreen({ wins, streak, logSet: logSetProp, onAdd, todayWin, 
 export function AddWinScreen({ onBack, onSubmit }) {
   const [step, setStep] = useState("camera"); // camera | caption
   const [shot, setShot] = useState(null);     // { photo, retakes }
-  const [icon] = useState("Sun");
+  const icon = "Sun"; // no picker built — every win uses the same icon for now
   const [text, setText] = useState("");
   const max = 140;
 

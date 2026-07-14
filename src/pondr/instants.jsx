@@ -64,14 +64,12 @@ export function InstantPH({ hue = 40, hue2 = 290 }) {
 // ───────────── View-once fullscreen viewer ─────────────
 // mode: "close" (burns when closed) | "timed" (auto-burns) | "hold" (burns on release)
 // overlay: "chips" | "paper" | "minimal" · burn=false → owner re-viewing, nothing is consumed
-export function InstantViewer({ instant, mode = "close", seconds = 8, overlay = "chips", burn = true, myHandle, onDone, onCancel, onComment, onReport }) {
+export function InstantViewer({ instant, mode = "close", seconds = 8, overlay = "chips", burn = true, myHandle, onDone, onCancel, onReport }) {
   const needHold = burn && mode === "hold";
   const [revealed, setRevealed] = useState(!needHold);
   const [left, setLeft] = useState(seconds);
-  const [comment, setComment] = useState("");
-  const [sent, setSent] = useState(false);
   const [reporting, setReporting] = useState(false);
-  const pausedRef = useRef(false); // pauses the timed countdown while typing / reporting
+  const pausedRef = useRef(false); // pauses the timed countdown while reporting
   const doneRef = useRef(false);
   const finish = () => {
     if (doneRef.current) return;
@@ -102,14 +100,6 @@ export function InstantViewer({ instant, mode = "close", seconds = 8, overlay = 
     : mode === "hold" ? "Let go and it's gone."
     : "Closing this ends it. Instants play once.";
 
-  const sendComment = () => {
-    const text = comment.trim();
-    if (!text || sent) return;
-    setSent(true);
-    setComment("");
-    pausedRef.current = false;
-    if (onComment) onComment(text);
-  };
   const openReport = () => { pausedRef.current = true; setReporting(true); };
   const closeReport = () => { pausedRef.current = false; setReporting(false); };
 
@@ -183,29 +173,6 @@ export function InstantViewer({ instant, mode = "close", seconds = 8, overlay = 
           </React.Fragment>
         )}
       </div>
-
-      {/* Quick comment — a kind word back to the poster (not in hold mode: hands are busy) */}
-      {burn && revealed && mode !== "hold" && (
-        <div className="iv-comment">
-          {sent ? (
-            <span className="iv-sent"><Icon.Check size={14} /> {"Sent to " + handle + " ✨"}</span>
-          ) : (
-            <React.Fragment>
-              <input
-                value={comment}
-                maxLength={120}
-                placeholder="Comment…"
-                onChange={(e) => setComment(e.target.value)}
-                onFocus={() => { pausedRef.current = true; }}
-                onBlur={() => { if (!reporting) pausedRef.current = false; }}
-                onKeyDown={(e) => { if (e.key === "Enter") sendComment(); }} />
-              <button className="iv-send" disabled={!comment.trim()} onClick={sendComment} aria-label="Send">
-                <Icon.Send size={16} />
-              </button>
-            </React.Fragment>
-          )}
-        </div>
-      )}
 
       <div className="iv-hint">{hint}</div>
 

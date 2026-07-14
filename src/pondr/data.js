@@ -67,5 +67,3 @@ export function handleFromNumber(n) {
 // read the rest.
 export const FREE_NOTES = 3;
 export const UNLOCK_SUBS = 5;
-
-export const WIN_ICONS = ["Sun", "Heart", "Star", "Leaf", "Moon", "Coffee", "Music", "Book"];

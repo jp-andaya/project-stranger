@@ -839,7 +839,6 @@ export default function App() {
             overlay={INSTANT_OVERLAY}
             burn={viewer.burn}
             myHandle={me ? me.handle : null}
-            onComment={() => {}}
             onReport={(reason) => {
               reportInstant(viewer.instant, reason);
               setViewer(null);
