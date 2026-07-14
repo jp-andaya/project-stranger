@@ -27,3 +27,6 @@ __pycache__/
 .agents/
 .claude/
 skills-lock.json
+
+# Uploaded media (generated locally)
+backend/data/

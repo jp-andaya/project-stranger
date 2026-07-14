@@ -1,0 +1,50 @@
+# Project Stranger — full stack in two containers.
+#
+#   docker compose up --build      # build + run
+#   open http://localhost:3000     # the app
+#   open http://localhost:8001/docs# API docs (direct to backend)
+#
+# Data persists in the named volume "backend-data" across restarts.
+
+services:
+  backend:
+    build:
+      context: ./backend
+    image: pondr-backend
+    restart: unless-stopped
+    environment:
+      # SQLite on the mounted volume (4 slashes = absolute path /data/stranger.db)
+      DATABASE_URL: "sqlite:////data/stranger.db"
+      # Uploaded photos (wins/instants) live alongside the DB on the volume.
+      UPLOAD_DIR: "/data/uploads"
+      # Override both of these outside local dev.
+      SECRET_KEY: "${SECRET_KEY:-pondr-dev-secret-do-not-use-in-production}"
+      ADMIN_PASSWORD: "${ADMIN_PASSWORD:-admin-dev-password}"
+    volumes:
+      - backend-data:/data
+    ports:
+      - "8001:8001"          # optional: direct access to the API + /docs
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # Empty => same-origin relative API calls, proxied to backend by nginx.
+        VITE_API_URL: ""
+    image: pondr-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      backend:
+        condition: service_started
+
+volumes:
+  backend-data:

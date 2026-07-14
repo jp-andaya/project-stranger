@@ -2,4 +2,11 @@ fastapi==0.109.0
 uvicorn==0.27.0
 sqlalchemy==2.0.25
 pydantic==2.5.3
+email-validator==2.1.0
 python-multipart==0.0.6
+PyJWT==2.8.0
+bcrypt==4.1.2
+
+# Dev / tests
+pytest==8.0.0
+httpx==0.26.0

@@ -12,6 +12,10 @@ export default defineConfig({
   },
   server: {
     port: 3000,
-    open: true
+    open: true,
+    proxy: {
+      // Same-origin API calls in dev, mirroring the nginx proxy in Docker.
+      '/api': 'http://localhost:8001',
+    },
   }
 });

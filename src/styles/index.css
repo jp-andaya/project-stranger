@@ -12,6 +12,8 @@
 
 /* Base + components (verbatim from the design handoff) */
 @import url('./components.css');
+@import url('./instants.css');  /* Instants — capture, viewer, stack, rail */
+@import url('./settings.css');  /* Settings screen */
 
 /* =====================================================
    Web shell — replaces the prototype's <IOSDevice> frame.
