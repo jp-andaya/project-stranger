@@ -1,11 +1,12 @@
 # Running Pondr with Docker
 
-Two containers, one command — no local Python, Node, or database setup required.
+Three containers, one command — no local Python, Node, or database setup required.
 
-| Container  | What it is                          | Port            |
-|------------|-------------------------------------|-----------------|
-| `frontend` | React build served by nginx         | `3000` → app    |
-| `backend`  | FastAPI + SQLite                    | `8001` → API/docs |
+| Container   | What it is                              | Port                        |
+|-------------|------------------------------------------|-----------------------------|
+| `frontend`  | React build served by nginx              | `3000` → app                |
+| `backend`   | FastAPI + SQLite                         | `8001` → API/docs           |
+| `db-viewer` | Read-only SQLite browser (dev tool only) | `127.0.0.1:8080` → DB browser |
 
 The frontend's nginx reverse-proxies `/api/*` to the backend, so the browser
 only talks to one origin (no CORS config). SQLite data lives in the
@@ -18,8 +19,9 @@ cd project-stranger
 docker compose up --build
 ```
 
-- App:      http://localhost:3000
-- API docs: http://localhost:8001/docs
+- App:       http://localhost:3000
+- API docs:  http://localhost:8001/docs
+- DB viewer: http://localhost:8080 (read-only, loopback-only — not part of the app)
 
 Stop with `Ctrl+C`, or `docker compose down`. The database persists.
 To wipe the database too: `docker compose down -v`.
@@ -45,6 +47,16 @@ docker compose down -v           # stop and delete the data volume
   Empty (the default in compose) = same-origin relative calls. For a setup where
   the frontend calls the backend on a different host, rebuild with
   `--build-arg VITE_API_URL=https://api.example.com`.
+
+## Dev-only DB viewer
+
+`db-viewer` (image `coleifer/sqlite-web`) mounts the same `backend-data`
+volume read-only and serves a browsable SQLite UI at
+`http://127.0.0.1:8080`. Leave the tab open and refresh it to see live
+notes/wins as you use the app — no need to `docker cp` the file out.
+It's bound to loopback only (the DB has emails and password hashes in
+it) and isn't part of the deployed app; drop the service from
+`docker-compose.yml` for a production build.
 
 ## Deploying
 
