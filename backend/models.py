@@ -181,6 +181,11 @@ class WinComment(Base):
 
 
 class Instant(Base):
+    """The view-once face of a PUBLIC photographed win. Invariant: an instant
+    exists only while a public win with a photo exists for that user+date —
+    capture enforces it on create, privacy toggles and win deletion keep it
+    in sync (routes/wins.py). There is deliberately no win_id: the instant is
+    a denormalized snapshot, matched by (user_id, instant_date)."""
     __tablename__ = "instants"
     __table_args__ = (
         UniqueConstraint("user_id", "instant_date", name="uq_instants_user_date"),

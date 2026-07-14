@@ -121,6 +121,44 @@ def test_deleting_photoless_win_leaves_instant_alone(client):
     assert client.get("/api/instants/mine/today", headers=auth_header(token)).status_code == 200
 
 
+def test_private_photo_win_creates_no_instant(client):
+    token, _ = signup(client, handle="Brave Otter")
+    assert make_win(client, token, photo=TINY_JPEG_DATAURL, is_private=True).status_code == 201
+
+    # No instant for the owner, and nothing for strangers to explore.
+    assert client.get("/api/instants/mine/today", headers=auth_header(token)).status_code == 404
+    stranger, _ = signup(client, email="stranger@example.com")
+    assert client.get("/api/instants/explore", headers=auth_header(stranger)).json() == []
+
+
+def test_privacy_toggle_syncs_instant(client):
+    token, _ = signup(client, handle="Brave Otter")
+    win = make_win(client, token, photo=TINY_JPEG_DATAURL).json()
+    stranger, _ = signup(client, email="stranger@example.com")
+    assert client.get("/api/instants/mine/today", headers=auth_header(token)).status_code == 200
+
+    # Privatise: instant withdrawn from owner view and the explore feed.
+    client.patch(f"/api/wins/{win['id']}", json={"is_private": True}, headers=auth_header(token))
+    assert client.get("/api/instants/mine/today", headers=auth_header(token)).status_code == 404
+    assert client.get("/api/instants/explore", headers=auth_header(stranger)).json() == []
+
+    # Publicise again: instant re-captured from the win's stored photo.
+    client.patch(f"/api/wins/{win['id']}", json={"is_private": False}, headers=auth_header(token))
+    assert client.get("/api/instants/mine/today", headers=auth_header(token)).status_code == 200
+    assert len(client.get("/api/instants/explore", headers=auth_header(stranger)).json()) == 1
+
+
+def test_deleting_private_photo_win_preserves_public_instant(client):
+    token, _ = signup(client, handle="Brave Otter")
+    make_win(client, token, photo=TINY_JPEG_DATAURL)  # public: captures the instant
+    private = make_win(client, token, text="A second, private photo win.",
+                       photo=TINY_JPEG_DATAURL, is_private=True).json()
+
+    # The private win never owned the instant, so deleting it must not remove it.
+    assert client.delete(f"/api/wins/{private['id']}", headers=auth_header(token)).status_code == 204
+    assert client.get("/api/instants/mine/today", headers=auth_header(token)).status_code == 200
+
+
 def test_win_photo_served_with_privacy(client):
     owner, _ = signup(client, email="owner@example.com")
     win = make_win(client, owner, photo=TINY_JPEG_DATAURL, is_private=True).json()

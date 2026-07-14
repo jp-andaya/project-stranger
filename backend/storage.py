@@ -47,6 +47,19 @@ def save_photo(data_url: str, subdir: str) -> str:
     return relative
 
 
+def copy_photo(relative: str, subdir: str) -> str:
+    """Duplicate an already-stored photo into <subdir>/ under a fresh name.
+    Used when a win is made public again and needs to re-capture its instant
+    from the win's stored file (the original dataURL is long gone)."""
+    source = UPLOAD_DIR / relative
+    ext = source.suffix.lstrip(".") or "jpg"
+    new_relative = f"{subdir}/{uuid.uuid4().hex}.{ext}"
+    target = UPLOAD_DIR / new_relative
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_bytes(source.read_bytes())
+    return new_relative
+
+
 def photo_abs_path(relative: str) -> Path:
     return UPLOAD_DIR / relative
 
