@@ -152,9 +152,18 @@ def seed(reset: bool = False):
             win_count += 1
 
         # ── Seeded instants for today (placeholder photos) ──
+        # Invariant (see models.Instant): every instant is the public face of
+        # a photographed win, so each seeded instant gets a matching win row.
         instant_count = 0
         for number in STRANGER_NUMBERS[:3]:
             user = strangers[number]
+            db.add(Win(
+                user_id=user.id,
+                text="A small win from a stranger",
+                win_date=today,
+                photo_path=_placeholder_photo("wins", f"seed-{number}"),
+                is_private=False,
+            ))
             db.add(Instant(
                 user_id=user.id,
                 instant_date=today,
