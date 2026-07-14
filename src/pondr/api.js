@@ -55,7 +55,6 @@ export const deleteMe = () => apiFetch("/auth/me", { method: "DELETE" });
 export const handleCheck = (handle) => apiFetch("/auth/handle-check?handle=" + encodeURIComponent(handle));
 
 // ── Prompts + suggestions ──
-export const getPromptCarousel = () => apiFetch("/prompts/archive?limit=7");
 export const getPromptArchive = (limit = 50) => apiFetch("/prompts/archive?limit=" + limit);
 export const suggestPrompt = (text) => apiFetch("/prompts/suggestions", { method: "POST", body: { text } });
 export const getMySuggestions = () => apiFetch("/prompts/suggestions/mine");
@@ -91,9 +90,9 @@ export const likeInstant = (id) => apiFetch("/instants/" + id + "/like", { metho
 export const getStrangerProfile = (number) => apiFetch("/instants/users/" + number);
 
 // ── Reports + donations ──
+// Only instants have a report UI today; the backend also accepts note_id if
+// a report-a-note flow gets built later (POST /api/reports/ with note_id).
 export const reportInstant = (instantId, reason) =>
   apiFetch("/reports/", { method: "POST", body: { instant_id: instantId, reason } });
-export const reportNote = (noteId, reason) =>
-  apiFetch("/reports/", { method: "POST", body: { note_id: noteId, reason } });
 export const recordDonation = (amountPence, frequency = "once") =>
   apiFetch("/donations/", { method: "POST", body: { amount_pence: amountPence, frequency } });

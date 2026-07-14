@@ -660,7 +660,7 @@ function MountainProgress({ streak = 0, zoom = true, breakDays = 0, deletedAgo =
 
 // ───────────── Wins ─────────────
 // (The old EphemeralPhoto stub was replaced by the Instants feature — see instants.jsx)
-export function WinsScreen({ wins, streak, logSet: logSetProp, onAdd, todayWin, myInstant, perspective, viewedMine, onCapture, onViewMine, onEditWin, onLikeWin, onCommentWin, onWinMenu, mtnTweaks = {} }) {
+export function WinsScreen({ wins, streak, logSet: logSetProp, onAdd, todayWin, myInstant, perspective, viewedMine, onCapture, onViewMine, onEditWin, onLikeWin, onCommentWin, onWinMenu }) {
   const isEmpty = wins.length === 0;
   const [calOpen, setCalOpen] = useState(false);
   const [calRange, setCalRange] = useState("1M");
@@ -707,9 +707,6 @@ export function WinsScreen({ wins, streak, logSet: logSetProp, onAdd, todayWin, 
         <MountainProgress
           streak={streak}
           zoom={!calOpen}
-          breakDays={mtnTweaks.breakDays}
-          deletedAgo={mtnTweaks.deletedAgo}
-          descent={mtnTweaks.descent}
           logSet={logSet} />
         {!calOpen &&
           <div
