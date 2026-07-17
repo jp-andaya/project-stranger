@@ -11,7 +11,7 @@ SQLite (backend) · JWT auth · Docker Compose for deployment.
 
 ## Run with Docker (recommended)
 
-No local Python or Node needed — one command builds and starts everything:
+No local Python or Node needed; one command builds and starts everything:
 
 ```bash
 docker compose up --build
@@ -26,7 +26,7 @@ read-only DB viewer.
 
 ## Run locally (dev)
 
-Two terminals — backend first, then frontend.
+Two terminals: backend first, then frontend.
 
 **Backend** (Python 3.11+):
 
@@ -46,7 +46,7 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000 — the Vite dev server proxies `/api/*` to the
+Open http://localhost:3000. The Vite dev server proxies `/api/*` to the
 backend on port 8001, mirroring the nginx proxy used in Docker.
 
 ## Tests
@@ -58,6 +58,6 @@ pytest
 
 ## More docs
 
-- [ARCHITECTURE.md](ARCHITECTURE.md) — how the containers fit together, request
+- [ARCHITECTURE.md](ARCHITECTURE.md): how the containers fit together, request
   flow, image builds, and data persistence (Mermaid diagrams).
-- [DOCKER.md](DOCKER.md) — day-to-day Docker usage and deployment notes.
+- [DOCKER.md](DOCKER.md): day-to-day Docker usage and deployment notes.
