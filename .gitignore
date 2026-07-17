@@ -22,6 +22,7 @@ Thumbs.db
 __pycache__/
 *.pyc
 *.pyo
+backend/.venv/
 
 # Claude Code / Skills
 .agents/
