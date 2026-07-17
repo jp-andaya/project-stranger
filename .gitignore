@@ -24,7 +24,7 @@ __pycache__/
 *.pyo
 backend/.venv/
 
-# Claude Code / Skills
+# Tooling
 skills-lock.json
 
 # Uploaded media (generated locally)
