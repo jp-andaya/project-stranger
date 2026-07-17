@@ -1,128 +1,63 @@
-# Project Stranger — Update Pack 2
+# Pondr
 
-This update includes: date formatting fix, admin moderation panel, flag notes feature, and GitHub setup guide.
+An anonymous, prompt-led wellbeing app. Each day brings a shared prompt; people
+answer with short anonymous notes, track personal wins with streaks, and can
+capture a win as a view-once photo "instant". Accounts are pseudonymous
+(auto-assigned @number plus a chosen handle), content is moderated, and the
+Support tab points to the MIND mental health charity.
 
-## Files to Copy
+**Stack:** React 18 + Vite + Tailwind (frontend) · FastAPI + SQLAlchemy +
+SQLite (backend) · JWT auth · Docker Compose for deployment.
 
-### NEW files (add these):
-```
-src/
-├── utils/
-│   └── date.js              ← NEW: date formatting utility
-├── views/
-│   ├── Admin.jsx            ← NEW: admin moderation panel
-│   └── Admin.module.css     ← NEW: admin panel styles
-```
+## Run with Docker (recommended)
 
-### REPLACE these existing files:
-```
-src/
-├── App.jsx                       ← adds admin route
-├── utils/
-│   └── index.js                  ← exports date utils
-├── components/
-│   ├── Header.jsx                ← adds Admin nav link
-│   ├── StoryCard.jsx             ← adds flag/report button
-│   └── StoryCard.module.css      ← flag button styles
-├── views/
-│   ├── Home.jsx                  ← formatted dates
-│   ├── Archive.jsx               ← formatted dates
-│   └── index.js                  ← exports Admin
+No local Python or Node needed — one command builds and starts everything:
+
+```bash
+docker compose up --build
 ```
 
-## What's New
+- App: http://localhost:3000
+- API docs: http://localhost:8001/docs
 
-### 1. Date Formatting
-- "2026-03-24" → "Monday, 24 March" on the home page
-- "Mon, 24 Mar" short format on archive cards
+The database seeds itself on first start and persists in a named volume.
+See [DOCKER.md](DOCKER.md) for details, common commands, and the optional
+read-only DB viewer.
 
-### 2. Admin Moderation Panel
-- Dashboard stats: total notes, prompts, warmth, flagged, hidden
-- Flagged notes tab: review notes reported by users
-- All notes tab: browse every note with hide/restore/delete controls
-- Confirmation dialog before permanent deletes
-- Action feedback messages
+## Run locally (dev)
 
-### 3. Flag Notes Feature
-- Small flag icon (⚐) on every story card
-- Users can report inappropriate content
-- Flagged notes appear in admin panel for review
-- Flag icon turns solid (⚑) after reporting
+Two terminals — backend first, then frontend.
 
-### 4. Navigation Update
-- "Admin" link added to header nav bar
-- Admin panel accessible from any page
+**Backend** (Python 3.11+):
 
----
-
-## GitHub Setup Guide
-
-### First-time setup (run once):
-
-1. Create a new repository on GitHub:
-   - Go to github.com → New Repository
-   - Name: "project-stranger"
-   - Keep it Public or Private (your choice)
-   - Do NOT initialise with README (we already have one)
-   - Click "Create repository"
-
-2. Open a terminal in your project root:
-```powershell
-cd C:\Users\johna\Downloads\project-stranger\project-stranger
+```bash
+cd backend
+python -m venv .venv
+.venv/Scripts/activate        # Windows; on macOS/Linux: source .venv/bin/activate
+pip install -r requirements.txt
+python seed_data.py           # create + seed the SQLite database
+uvicorn main:app --reload --port 8001
 ```
 
-3. Initialise Git and push:
-```powershell
-git init
-git add .
-git commit -m "Initial commit - Project Stranger full stack"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/project-stranger.git
-git push -u origin main
+**Frontend** (Node 18+):
+
+```bash
+npm install
+npm run dev
 ```
 
-Replace YOUR_USERNAME with your actual GitHub username.
+Open http://localhost:3000 — the Vite dev server proxies `/api/*` to the
+backend on port 8001, mirroring the nginx proxy used in Docker.
 
-### Create a .gitignore file first!
+## Tests
 
-Before running `git add .`, create a file called `.gitignore` in the project root with:
-```
-# Dependencies
-node_modules/
-
-# Build output
-dist/
-
-# Environment
-.env
-
-# Database (generated locally)
-backend/stranger.db
-
-# IDE
-.vscode/
-.idea/
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Python
-__pycache__/
-*.pyc
-*.pyo
+```bash
+cd backend
+pytest
 ```
 
-### Making changes going forward:
-```powershell
-git add .
-git commit -m "Description of what you changed"
-git push
-```
+## More docs
 
-### Useful commands:
-```powershell
-git status            # see what's changed
-git log --oneline     # see commit history
-git diff              # see file changes
-```
+- [ARCHITECTURE.md](ARCHITECTURE.md) — how the containers fit together, request
+  flow, image builds, and data persistence (Mermaid diagrams).
+- [DOCKER.md](DOCKER.md) — day-to-day Docker usage and deployment notes.
